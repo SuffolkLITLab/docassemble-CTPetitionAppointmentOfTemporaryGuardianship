@@ -1,2 +1,3 @@
-# docassemble-CTPetitionAppointmentOfTemporaryGuardianship
-A docassemble project for PetitionAppointmentOfTGCTPC504WithFields.
+# docassemble.CTPetitionAppointmentOfTemporaryGuardianship
+
+A docassemble extension.

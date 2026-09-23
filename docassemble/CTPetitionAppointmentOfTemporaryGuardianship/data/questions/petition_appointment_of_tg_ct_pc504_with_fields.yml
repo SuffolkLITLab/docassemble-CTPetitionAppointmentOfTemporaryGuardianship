@@ -1,0 +1,751 @@
+---
+include:
+  - docassemble.AssemblyLine:assembly_line.yml
+  - docassemble.ALAnyState:any_state.yml
+---
+metadata:
+  title: >-
+    Petition Appointment of TG CT PC-504 with fields
+  short title: >-
+    Petition Appointment of T
+  description: |-
+    Use this form to request the appointment of a temporary guardian for a minor child. This process is initiated by a parent or court-appointed guardian who is unable to care for the child.
+  can_I_use_this_form: |
+    You can use this form if you are a parent or a court-appointed guardian of a minor. Make sure to file it in the probate district where the child resides.
+  before_you_start: |
+    ## Before you get started
+    - Ensure you have the minor's birth certificate and the Affidavit Concerning Children (JD-FM-164).
+    - Gather all necessary information about the minor and the proposed guardian.
+
+    ## When you are finished
+    - Submit the completed petition along with the required documents to the appropriate probate court.
+  when_you_are_finished: |
+    After submitting the petition, the court will review your request. You may need to attend a hearing where you can present your case for the appointment of a temporary guardian.
+  efiling_enabled: False
+  integrated_efiling: False
+  integrated_email_filing: False
+  requires_notarization: False
+  unlisted: False
+  landing_page_url: >-
+    https://courtformsonline.org/
+  maturity: production
+  estimated_completion_minutes: ""
+  estimated_completion_delta: ""
+  LIST_topics:
+    - "CO-00-00-00-00"
+  tags:
+    - "CO-00-00-00-00"
+  authors:
+    - Court Forms Online
+  original_form: []
+  original_form_published_on: ""
+  allowed_courts: []
+  typical_role: "plaintiff"
+  al_weaver_version: "2.3.1"
+  generated_on: "2026-09-16"
+  languages:
+    - en
+  jurisdiction: "NAM-US-US+CT"
+  review_date: 2026-09-16
+  form_titles:
+    - Petition Appointment of TG CT PC-504 with fields
+  form_numbers: []
+  update_notes: ""
+---
+code: |
+  # This controls the default country and list of states in address field questions
+  AL_DEFAULT_COUNTRY = "US"
+---
+code: |
+  # This controls the default state in address field questions
+  AL_DEFAULT_STATE = "CT"
+---
+code: |
+  github_repo_name = 'docassemble-PetitionAppointmentOfTgCtPc504WithFields'
+---
+template: interview_short_title
+content: |
+  Petition for Temporary Guardian Appointment
+---
+code: |
+  al_form_type = "starts_case"
+---
+id: alweaver assemblyline settings
+initial: True
+code: |
+  # These exact-name variables drive the reusable next-steps DOCX shell and
+  # are editable in Weaver's AssemblyLine settings panel.
+  al_next_steps_enabled = True
+  al_next_steps_intro_prompt = 'Petition for Temporary Guardian Appointment'
+  al_next_steps_title = 'Petition Appointment of TG CT PC-504 with fields'
+  al_next_steps_document_title = 'Petition'
+  al_next_steps_document_purpose = 'Appointment'
+  al_next_steps_help_organization = 'Connecticut Probate Courts'
+  al_next_steps_help_url = 'https://portal.ct.gov/Probate'
+  al_next_steps_generate_qr_code = False
+  al_next_steps_what_happens_next = 'After submitting the petition, the court will review your request. You may need to attend a hearing where you can present your case for the appointment of a temporary guardian.'
+  al_next_steps_what_can_decision_maker_do = 'The decision maker (the court) can approve or deny your petition based on the best interests of the minor child. They may also appoint a temporary guardian.'
+  al_next_steps_what_happens_if_i_win = 'If your petition is approved, the temporary guardianship will be effective for up to one year. The appointed guardian will have the authority to make decisions for the minor as specified in the court order.'
+---
+objects:
+  - users: ALPeopleList.using(there_are_any=True)
+---
+sections:
+  - petition_and_child: Petition and Child Details
+  - guardianship_rights_and_reasons: Rights and Reasons for Guardianship
+  - legal_proceedings_and_terms: Legal Proceedings and Guardianship Terms
+  - petitioner_and_guardian: Petitioner and Guardian Information
+  - review_and_sign: Review, Sign, and Submit
+  - review_petition_appointment_of_tg_ct_pc504_with_fields: Review your answers
+---
+#################### Interview order #####################
+comment: |
+  Controls order and branching logic for questions specific to this form
+id: interview_order_petition_appointment_of_tg_ct_pc504_with_fields
+code: |
+  user_role = "plaintiff"
+  user_ask_role = "plaintiff"
+  nav.set_section('petition_and_child')
+  users1_recieveddate
+  Minor_Childs_Date_of_Birth
+  nav.set_section('petitioner_and_guardian')
+  Petitioner_Name_address_and_telephone_number
+  nav.set_section('guardianship_rights_and_reasons')
+  set_progress(22)
+  Mother_Parent
+  Reasons
+  nav.set_section('legal_proceedings_and_terms')
+  has_been_a_proceeding
+  set_progress(45)
+  Termination_date
+  nav.set_section('review_and_sign')
+  Petitioners_Name
+  nav.set_section('petition_and_child')
+  set_progress(68)
+  interview_order_petition_appointment_of_tg_ct_pc504_with_fields = True
+---
+###################### Main order ######################
+comment: |
+  This block includes the logic for standalone interviews.
+  Delete mandatory: True to include in another interview
+mandatory: True
+code: |
+  al_intro_screen
+  petition_appointment_of_tg_ct_pc504_with_fields_intro
+  interview_order_petition_appointment_of_tg_ct_pc504_with_fields
+  signature_date
+  # Store anonymous data for analytics / statistics
+  store_variables_snapshot(
+      persistent=True,
+      data={
+          "zip": showifdef("users[0].address.zip"),
+          "reached_interview_end": True,
+      },
+  )
+  set_progress(100)
+  petition_appointment_of_tg_ct_pc504_with_fields_download
+---
+id: Petition Appointment of TG CT PC 504 with fields intro
+continue button field: petition_appointment_of_tg_ct_pc504_with_fields_intro
+question: |
+  Petition Appointment of TG CT PC-504 with fields
+subquestion: |
+  ## Before you get started
+  - Ensure you have the minor's birth certificate and the Affidavit Concerning Children (JD-FM-164).
+  - Gather all necessary information about the minor and the proposed guardian.
+
+  ## When you are finished
+  - Submit the completed petition along with the required documents to the appropriate probate court.
+
+  You can use this form if you are a parent or a court-appointed guardian of a minor. Make sure to file it in the probate district where the child resides.
+---
+id: Petition Details
+question: |
+  Petition Details
+subquestion: |
+  Provide the basic details of the petition.
+fields:
+  - "Date petition received": users1_recieveddate
+    datatype: date
+  - "Probate court name": Probate_Court_Name
+  - "District number": District_No
+  - "In the matter of": In_the_Matter_of
+---
+id: Minor Child Information
+question: |
+  Minor Child Information
+subquestion: |
+  Enter the minor child's details.
+fields:
+  - "Minor child's date of birth": Minor_Childs_Date_of_Birth
+    datatype: date
+  - "Address where minor child resides": Address_where_minor_child_resides
+  - label: Address where minor child is domiciled (if different from residence)
+    field: Address_where_minor_child_is_domiciled_if_different
+    required: False
+  - label: Address where minor child is located (if different from residence)
+    field: Address_where_minor_child_is_located_at_time_of_filing_petition_if_different
+    required: False
+---
+id: question_1790104605424
+question: Petitioner and Proposed Temporary Guardian Information
+fields:
+  - "Petitioner name, address, telephone number": Petitioner_Name_address_and_telephone_number
+  - "Proposed Temporary Guardian name, address, telephone number": Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date
+---
+id: code_1790087520699
+question: Is the petitioner a parent or court-appointed guardian?
+fields:
+  - Parent: parent
+    datatype: yesnoradio
+  - Court-appointed guardian: court_appointed_guardian
+    datatype: yesnoradio
+---
+id: Guardianship Rights
+question: |
+  Guardianship Rights
+subquestion: |
+  List individuals with guardianship rights. (For each person, list name, address,
+  telephone number, including the date of birth for any person who is under the age of 18, any person in the military service
+  or any person under conservatorship or legal disability)
+fields:
+  - "Mother's details": Mother_Parent
+  - "Father's details or unknown status": FatherParent_If_father_is_unknown_so_state
+  - label: Guardians of the minor child
+    field: Guardians_of_the_Person_of_the_Minor_Child
+    required: False
+---
+id: Reasons for Guardianship
+question: |
+  Reasons for Guardianship
+subquestion: |
+  State the reasons for requesting guardianship.
+fields:
+  - Reasons for guardianship request: Reasons
+  - Has the minor child resided in Connecticut continuously for the past 6 months?: has_resided
+    datatype: yesnoradio
+  - "Is there a pending or contemplated proceeding in Connecticut or any state affecting the custody of the minor child ": has_not_resided
+    datatype: yesnoradio
+  - Pending or contemplated proceeding: is_a_proceeding
+    datatype: yesnoradio
+  - Pending or contemplated proceeding: is_not_a_proceeding
+    datatype: yesnoradio
+---
+id: Legal Proceedings
+question: |
+  Legal Proceedings
+subquestion: |
+  Provide details about any legal proceedings.
+fields:
+  - Has there been a proceeding in the past in Connecticut or any state affecting the custody of the minor child: has_been_a_proceeding
+    datatype: yesnoradio
+  - Is there a current safety or service agreement between the Department of Children and Families and the parent/guardian of the minor child.: is_
+    datatype: yesnoradio
+  - Is there a current protective order or restraining order involving any party: is_not
+    datatype: yesnoradio
+  - label: "If YES to current protective or restraining order, please attach"
+    field: protective_order_restraining_order
+    datatype: url
+    required: False
+---
+id: Guardianship Terms
+question: |
+  Guardianship Terms
+subquestion: |
+  Specify the terms of the proposed guardianship.
+fields:
+  - Termination date of guardianship (1 year maximum): Termination_date
+    datatype: date
+---
+id: Signatures
+question: |
+  Signatures
+subquestion: |
+  Sign and provide details of the petitioners.
+fields:
+  - "Petitioner's Signature": Petitioners_Name
+    datatype: area
+  - Type or print name of petitioner: Type_or_Print_Name_1
+  - "Date ": Date1
+    datatype: date
+  - label: "Petitioner's Signature "
+    field: Petitioners_Name2
+    datatype: area
+    required: False
+  - label: Type or print name of petitioner
+    field: Type_or_Print_Name_2
+    required: False
+  - label: "Date "
+    field: Date2
+    datatype: date
+    required: False
+  - "Proposed Temporary Guardian Signature ": Proposed_Temporary_Guardian_name
+    datatype: area
+  - "Type or print name ": Type_or_Print_Name_3
+  - Date: Date3
+    datatype: date
+  - Address: Address1
+  - Telephone number: Telephone_number1
+  - label: Proposed Temporary Guardian Signature
+    field: Proposed_Temporary_Guardian_name2
+    datatype: area
+    required: False
+  - label: "Type or print name "
+    field: Type_or_Print_Name_4
+    required: False
+  - label: Date
+    field: Date4
+    datatype: date
+    required: False
+  - label: Address
+    field: Address2
+    required: False
+  - label: Telephone number
+    field: Telephone_number2
+    required: False
+---
+comment: |
+  The questions below are copies of the questions in AssemblyLine's
+  ql_baseline.yml, rewritten to name this interview's own objects instead of the
+  generic `x`. Edit them freely: they replace the AssemblyLine versions. Delete
+  one to go back to the AssemblyLine wording.
+---
+code: |
+  # This is a placeholder for the addresses that will be searched
+  # for matching address to court. Edit if court venue is based on
+  # a different address than the user's
+  [user.address.address for user in users.complete_elements()]
+  addresses_to_search = [user.address for user in users.complete_elements()]
+---
+id: petition appointment of tg ct pc504 with fields review screen
+event: review_petition_appointment_of_tg_ct_pc504_with_fields
+question: |
+  Review your answers
+review:
+  - Edit: users1_recieveddate
+    button: |
+      **Petition Details**
+
+      Date petition received: ${ showifdef('users1_recieveddate') }
+
+      Probate court name: ${ showifdef('Probate_Court_Name') }
+
+      District number: ${ showifdef('District_No') }
+
+      In the matter of: ${ showifdef('In_the_Matter_of') }
+  - Edit: Minor_Childs_Date_of_Birth
+    button: |
+      **Minor Child Information**
+
+      Minor child's date of birth: ${ showifdef('Minor_Childs_Date_of_Birth') }
+
+      Address where minor child resides: ${ showifdef('Address_where_minor_child_resides') }
+
+      Address where minor child is domiciled: ${ showifdef('Address_where_minor_child_is_domiciled_if_different') }
+
+      Address where minor child is located: ${ showifdef('Address_where_minor_child_is_located_at_time_of_filing_petition_if_different') }
+  - Edit: Petitioner_Name_address_and_telephone_number
+    button: |
+      **Petitioner and Guardian Information**
+
+      Petitioner name and contact info: ${ showifdef('Petitioner_Name_address_and_telephone_number') }
+
+      Proposed guardian's details: ${ showifdef('Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date') }
+
+      Parent: ${ word(yesno(Parent)) if defined('Parent') else '' }
+
+      Court-appointed guardian: ${ word(yesno(Courtappointed_Guardian)) if defined('Courtappointed_Guardian') else '' }
+  - Edit: Mother_Parent
+    button: |
+      **Guardianship Rights**
+
+      Mother's details: ${ showifdef('Mother_Parent') }
+
+      Father's details or unknown status: ${ showifdef('FatherParent_If_father_is_unknown_so_state') }
+
+      Guardians of the minor child: ${ showifdef('Guardians_of_the_Person_of_the_Minor_Child') }
+  - Edit: Reasons
+    button: |
+      **Reasons for Guardianship**
+
+      Reasons for guardianship request: ${ showifdef('Reasons') }
+
+      Has resided in Connecticut: ${ word(yesno(has_resided)) if defined('has_resided') else '' }
+
+      Has not resided in Connecticut: ${ word(yesno(has_not_resided)) if defined('has_not_resided') else '' }
+
+      Is there a pending proceeding: ${ word(yesno(is_a_proceeding)) if defined('is_a_proceeding') else '' }
+
+      Is not a pending proceeding: ${ word(yesno(is_not_a_proceeding)) if defined('is_not_a_proceeding') else '' }
+  - Edit: has_been_a_proceeding
+    button: |
+      **Legal Proceedings**
+
+      Has been a proceeding: ${ word(yesno(has_been_a_proceeding)) if defined('has_been_a_proceeding') else '' }
+
+      Has not been a proceeding: ${ word(yesno(has_not_been_a_proceeding)) if defined('has_not_been_a_proceeding') else '' }
+
+      Is involved in case: ${ word(yesno(is_)) if defined('is_') else '' }
+
+      Is not involved in case: ${ word(yesno(is_not)) if defined('is_not') else '' }
+  - Edit: Termination_date
+    button: |
+      **Guardianship Terms**
+
+      Termination date of guardianship: ${ showifdef('Termination_date') }
+  - Edit: Petitioners_Name
+    button: |
+      **Signatures**
+
+      Petitioner's name: ${ showifdef('Petitioners_Name') }
+
+      Date of first signature: ${ showifdef('Date1') }
+
+      Petitioner's second name: ${ showifdef('Petitioners_Name2') }
+
+      Date of second signature: ${ showifdef('Date2') }
+
+      Type or print name of petitioner: ${ showifdef('Type_or_Print_Name_1') }
+
+      Date of third signature: ${ showifdef('Date3') }
+
+      Address of first signer: ${ showifdef('Address1') }
+
+      Telephone number of first signer: ${ showifdef('Telephone_number1') }
+
+      Type or print name of second signer: ${ showifdef('Type_or_Print_Name_2') }
+
+      Date of fourth signature: ${ showifdef('Date4') }
+
+      Address of second signer: ${ showifdef('Address2') }
+
+      Telephone number of second signer: ${ showifdef('Telephone_number2') }
+  - Edit: is_3
+    button: |
+      **Is 3**
+
+      Is 3: ${ word(yesno(is_3)) if defined('is_3') else '' }
+  - Edit: is_not_2
+    button: |
+      **Is not 2**
+
+      Is not 2: ${ word(yesno(is_not_2)) if defined('is_not_2') else '' }
+  - Edit: is_2
+    button: |
+      **Is 2**
+
+      Is 2: ${ word(yesno(is_2)) if defined('is_2') else '' }
+  - Edit: is_not_3
+    button: |
+      **Is not 3**
+
+      Is not 3: ${ word(yesno(is_not_3)) if defined('is_not_3') else '' }
+  - Edit: users1_recieveddate
+    button: |
+      **Date petition received**
+
+      Date petition received: ${ showifdef('users1_recieveddate') }
+  - Edit: Probate_Court_Name
+    button: |
+      **Probate court name**
+
+      Probate court name: ${ showifdef('Probate_Court_Name') }
+  - Edit: District_No
+    button: |
+      **District number**
+
+      District number: ${ showifdef('District_No') }
+  - Edit: In_the_Matter_of
+    button: |
+      **In the matter of**
+
+      In the matter of: ${ showifdef('In_the_Matter_of') }
+  - Edit: Minor_Childs_Date_of_Birth
+    button: |
+      **Minor child's date of birth**
+
+      Minor child's date of birth: ${ showifdef('Minor_Childs_Date_of_Birth') }
+  - Edit: Address_where_minor_child_resides
+    button: |
+      **Address where minor child resides**
+
+      Address where minor child resides: ${ showifdef('Address_where_minor_child_resides') }
+  - Edit: Address_where_minor_child_is_domiciled_if_different
+    button: |
+      **Address where minor child is domiciled**
+
+      Address where minor child is domiciled: ${ showifdef('Address_where_minor_child_is_domiciled_if_different') }
+  - Edit: Address_where_minor_child_is_located_at_time_of_filing_petition_if_different
+    button: |
+      **Address where minor child is located**
+
+      Address where minor child is located: ${ showifdef('Address_where_minor_child_is_located_at_time_of_filing_petition_if_different') }
+  - Edit: Petitioner_Name_address_and_telephone_number
+    button: |
+      **Petitioner name and contact info**
+
+      Petitioner name and contact info: ${ showifdef('Petitioner_Name_address_and_telephone_number') }
+  - Edit: Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date
+    button: |
+      **Proposed guardian's details**
+
+      Proposed guardian's details: ${ showifdef('Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date') }
+  - Edit: Parent
+    button: |
+      **Parent**
+
+      Parent: ${ word(yesno(Parent)) if defined('Parent') else '' }
+  - Edit: Courtappointed_Guardian
+    button: |
+      **Court-appointed guardian**
+
+      Court-appointed guardian: ${ word(yesno(Courtappointed_Guardian)) if defined('Courtappointed_Guardian') else '' }
+  - Edit: Mother_Parent
+    button: |
+      **Mother's details**
+
+      Mother's details: ${ showifdef('Mother_Parent') }
+  - Edit: FatherParent_If_father_is_unknown_so_state
+    button: |
+      **Father's details or unknown status**
+
+      Father's details or unknown status: ${ showifdef('FatherParent_If_father_is_unknown_so_state') }
+  - Edit: Guardians_of_the_Person_of_the_Minor_Child
+    button: |
+      **Guardians of the minor child**
+
+      Guardians of the minor child: ${ showifdef('Guardians_of_the_Person_of_the_Minor_Child') }
+  - Edit: Reasons
+    button: |
+      **Reasons for guardianship request**
+
+      Reasons for guardianship request: ${ showifdef('Reasons') }
+  - Edit: has_resided
+    button: |
+      **Has resided in Connecticut**
+
+      Has resided in Connecticut: ${ word(yesno(has_resided)) if defined('has_resided') else '' }
+  - Edit: has_not_resided
+    button: |
+      **Has not resided in Connecticut**
+
+      Has not resided in Connecticut: ${ word(yesno(has_not_resided)) if defined('has_not_resided') else '' }
+  - Edit: is_a_proceeding
+    button: |
+      **Is there a pending proceeding**
+
+      Is there a pending proceeding: ${ word(yesno(is_a_proceeding)) if defined('is_a_proceeding') else '' }
+  - Edit: is_not_a_proceeding
+    button: |
+      **Is not a pending proceeding**
+
+      Is not a pending proceeding: ${ word(yesno(is_not_a_proceeding)) if defined('is_not_a_proceeding') else '' }
+  - Edit: has_been_a_proceeding
+    button: |
+      **Has been a proceeding**
+
+      Has been a proceeding: ${ word(yesno(has_been_a_proceeding)) if defined('has_been_a_proceeding') else '' }
+  - Edit: has_not_been_a_proceeding
+    button: |
+      **Has not been a proceeding**
+
+      Has not been a proceeding: ${ word(yesno(has_not_been_a_proceeding)) if defined('has_not_been_a_proceeding') else '' }
+  - Edit: is_
+    button: |
+      **Is involved in case**
+
+      Is involved in case: ${ word(yesno(is_)) if defined('is_') else '' }
+  - Edit: is_not
+    button: |
+      **Is not involved in case**
+
+      Is not involved in case: ${ word(yesno(is_not)) if defined('is_not') else '' }
+  - Edit: Termination_date
+    button: |
+      **Termination date of guardianship**
+
+      Termination date of guardianship: ${ showifdef('Termination_date') }
+  - Edit: Petitioners_Name
+    button: |
+      **Petitioner's name**
+
+      Petitioner's name: ${ showifdef('Petitioners_Name') }
+  - Edit: Date1
+    button: |
+      **Date of first signature**
+
+      Date of first signature: ${ showifdef('Date1') }
+  - Edit: Petitioners_Name2
+    button: |
+      **Petitioner's second name**
+
+      Petitioner's second name: ${ showifdef('Petitioners_Name2') }
+  - Edit: Date2
+    button: |
+      **Date of second signature**
+
+      Date of second signature: ${ showifdef('Date2') }
+  - Edit: Type_or_Print_Name_1
+    button: |
+      **Type or print name of petitioner**
+
+      Type or print name of petitioner: ${ showifdef('Type_or_Print_Name_1') }
+  - Edit: Date3
+    button: |
+      **Date of third signature**
+
+      Date of third signature: ${ showifdef('Date3') }
+  - Edit: Address1
+    button: |
+      **Address of first signer**
+
+      Address of first signer: ${ showifdef('Address1') }
+  - Edit: Telephone_number1
+    button: |
+      **Telephone number of first signer**
+
+      Telephone number of first signer: ${ showifdef('Telephone_number1') }
+  - Edit: Type_or_Print_Name_2
+    button: |
+      **Type or print name of second signer**
+
+      Type or print name of second signer: ${ showifdef('Type_or_Print_Name_2') }
+  - Edit: Date4
+    button: |
+      **Date of fourth signature**
+
+      Date of fourth signature: ${ showifdef('Date4') }
+  - Edit: Address2
+    button: |
+      **Address of second signer**
+
+      Address of second signer: ${ showifdef('Address2') }
+  - Edit: Telephone_number2
+    button: |
+      **Telephone number of second signer**
+
+      Telephone number of second signer: ${ showifdef('Telephone_number2') }
+  - Edit: is_3
+    button: |
+      **Is 3**
+
+      Is 3: ${ word(yesno(is_3)) if defined('is_3') else '' }
+  - Edit: is_not_2
+    button: |
+      **Is not 2**
+
+      Is not 2: ${ word(yesno(is_not_2)) if defined('is_not_2') else '' }
+  - Edit: is_2
+    button: |
+      **Is 2**
+
+      Is 2: ${ word(yesno(is_2)) if defined('is_2') else '' }
+  - Edit: is_not_3
+    button: |
+      **Is not 3**
+
+      Is not 3: ${ word(yesno(is_not_3)) if defined('is_not_3') else '' }
+---
+id: download petition_appointment_of_tg_ct_pc504_with_fields
+event: petition_appointment_of_tg_ct_pc504_with_fields_download
+question: |
+  All done
+subquestion: |
+  Thank you ${users}. Your form is ready to download and deliver.
+
+  Use the options on this page to view, download and send your form. Use the
+  "Edit answers" button to fix any mistakes.
+
+  ${ action_button_html(url_action('review_petition_appointment_of_tg_ct_pc504_with_fields'), label=word('Edit answers'), color='info') }
+
+  ${ al_user_bundle.download_list_html() }
+
+  ${ al_user_bundle.send_button_html(show_editable_checkbox=False) }
+
+progress: 100
+---
+# ALDocument objects specify the metadata for each template
+objects:
+  - petition_appointment_of_tg_ct_pc504_with_fields_Post_interview_instructions: ALDocument.using(filename="petition_appointment_of_tg_ct_pc504_with_fields_next_steps.docx", enabled=al_next_steps_enabled, has_addendum=False)
+  - petition_appointment_of_tg_ct_pc504_with_fields_attachment: ALDocument.using(filename="petition_appointment_of_tg_ct_pc504_with_fields", enabled=True, has_addendum=False)
+---
+# Bundles group the ALDocuments into separate downloads, such as for court and for the user
+objects:
+  - al_user_bundle: ALDocumentBundle.using(elements=[petition_appointment_of_tg_ct_pc504_with_fields_Post_interview_instructions, petition_appointment_of_tg_ct_pc504_with_fields_attachment], filename="petition_appointment_of_tg_ct_pc504_with_fields", enabled=True)
+  - al_court_bundle: ALDocumentBundle.using(elements=[petition_appointment_of_tg_ct_pc504_with_fields_attachment], filename="petition_appointment_of_tg_ct_pc504_with_fields", enabled=True)
+---
+template: petition_appointment_of_tg_ct_pc504_with_fields_Post_interview_instructions.title
+content: |
+  Instructions
+---
+template: petition_appointment_of_tg_ct_pc504_with_fields_attachment.title
+content: |
+  Petition Appointment of TG CT PC-504 with fields
+---
+template: al_user_bundle.title
+content: |
+  All forms to download for your records
+---
+template: al_court_bundle.title
+content: |
+  All forms to deliver to court
+---
+# Each attachment defines a key in an ALDocument. We use `i` as the placeholder here so the
+# same template is used for "preview" and "final" keys, and logic in the template checks
+# the value of `i` to show or hide the user's signature
+attachment:
+  name: Post-interview-Instructions
+  filename: petition_appointment_of_tg_ct_pc504_with_fields_next_steps
+  docx template file: petition_appointment_of_tg_ct_pc504_with_fields_next_steps.docx
+  variable name: petition_appointment_of_tg_ct_pc504_with_fields_Post_interview_instructions[i]
+  skip undefined: True
+  tagged pdf: True
+---
+attachment:
+  name: petition appointment of tg ct pc504 with fields
+  filename: petition_appointment_of_tg_ct_pc504_with_fields
+  variable name: petition_appointment_of_tg_ct_pc504_with_fields_attachment[i]
+  skip undefined: True
+  pdf template file: Petition_Appointment_of_TG_CT_PC-504_with_fields.pdf
+  fields:
+      - "users1_recieveddate": ${ users1_recieveddate.format() }
+      - "Probate_Court_Name": ${ Probate_Court_Name }
+      - "District_No": ${ District_No }
+      - "In_the_Matter_of": ${ In_the_Matter_of }
+      - "Minor_Childs_Date_of_Birth": ${ Minor_Childs_Date_of_Birth.format() }
+      - "Address_where_minor_child_resides": ${ Address_where_minor_child_resides }
+      - "Address_where_minor_child_is_domiciled_if_different": ${ Address_where_minor_child_is_domiciled_if_different }
+      - "Address_where_minor_child_is_located_at_time_of_filing_petition_if_different": ${ Address_where_minor_child_is_located_at_time_of_filing_petition_if_different }
+      - "Petitioner_Name_address_and_telephone_number": ${ Petitioner_Name_address_and_telephone_number }
+      - "Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date": ${ Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date }
+      - "Parent": ${ Parent }
+      - "Courtappointed_Guardian": ${ Courtappointed_Guardian }
+      - "Mother_Parent": ${ Mother_Parent }
+      - "FatherParent_If_father_is_unknown_so_state": ${ FatherParent_If_father_is_unknown_so_state }
+      - "Guardians_of_the_Person_of_the_Minor_Child": ${ Guardians_of_the_Person_of_the_Minor_Child }
+      - "Reasons": ${ Reasons }
+      - "has_resided": ${ has_resided }
+      - "has_not_resided": ${ has_not_resided }
+      - "is_a_proceeding": ${ is_a_proceeding }
+      - "is_not_a_proceeding": ${ is_not_a_proceeding }
+      - "has_been_a_proceeding": ${ has_been_a_proceeding }
+      - "has_not_been_a_proceeding": ${ has_not_been_a_proceeding }
+      - "is": ${ is_ }
+      - "is_not": ${ is_not }
+      - "is_3": ${ is_3 }
+      - "is_not_2": ${ is_not_2 }
+      - "is_2": ${ is_2 }
+      - "is_not_3": ${ is_not_3 }
+      - "Termination_date": ${ Termination_date.format() }
+      - "Petitioners_Name": ${ Petitioners_Name }
+      - "Date1": ${ Date1.format() }
+      - "Petitioners_Name2": ${ Petitioners_Name2 }
+      - "Date2": ${ Date2.format() }
+      - "Type_or_Print_Name_1": ${ Type_or_Print_Name_1 }
+      - "Date3": ${ Date3.format() }
+      - "Address1": ${ Address1 }
+      - "Telephone_number1": ${ Telephone_number1 }
+      - "Type_or_Print_Name_2": ${ Type_or_Print_Name_2 }
+      - "Date4": ${ Date4.format() }
+      - "Address2": ${ Address2 }
+      - "Telephone_number2": ${ Telephone_number2 }
