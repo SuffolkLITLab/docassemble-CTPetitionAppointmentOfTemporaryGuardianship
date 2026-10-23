@@ -114,12 +114,13 @@ code: |
   set_progress(22)
   Mother_Parent
   Reasons
+  parent_or_court_appointed_guardian
   nav.set_section('legal_proceedings_and_terms')
-  has_been_a_proceeding
+  #has_been_a_proceeding 
   set_progress(45)
   Termination_date
   nav.set_section('review_and_sign')
-  Petitioners_Name
+  #Petitioners_Name
   nav.set_section('petition_and_child')
   set_progress(68)
   interview_order_petition_appointment_of_tg_ct_pc504_with_fields = True
@@ -193,14 +194,6 @@ fields:
   - "Petitioner name, address, telephone number": Petitioner_Name_address_and_telephone_number
   - "Proposed Temporary Guardian name, address, telephone number": Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date
 ---
-id: code_1790087520699
-question: Is the petitioner a parent or court-appointed guardian?
-fields:
-  - Parent: parent
-    datatype: yesnoradio
-  - Court-appointed guardian: court_appointed_guardian
-    datatype: yesnoradio
----
 id: Guardianship Rights
 question: |
   Guardianship Rights
@@ -224,29 +217,38 @@ fields:
   - Reasons for guardianship request: Reasons
   - Has the minor child resided in Connecticut continuously for the past 6 months?: has_resided
     datatype: yesnoradio
-  - "Is there a pending or contemplated proceeding in Connecticut or any state affecting the custody of the minor child ": has_not_resided
+  - Is there a pending or contemplated proceeding in Connecticut or any state affecting the custody of the minor child: current_proceeding
     datatype: yesnoradio
-  - Pending or contemplated proceeding: is_a_proceeding
+---
+id: question_1792760732917
+question: "Is the Petitioner a Parent or a Court-Appointed Guardian "
+fields:
+  - Parent of CAG: parent_or_court_appointed_guardian
+    datatype: radio
+    choices:
+      - Parent
+      - Court-Appointed Guardian
+      - Neither
+---
+id: Protective or Restraining Order Attachment
+question: 
+  "Legal Proceedings"
+fields: 
+  - Is there a current safety or service agreement between the Department of Children and Families and the parent/guardian of the minor child?: current_safety_or_service_agreement
     datatype: yesnoradio
-  - Pending or contemplated proceeding: is_not_a_proceeding
+  - Is there a current protective or restraining order involving any party?: current_protective_or_restraining_order
     datatype: yesnoradio
+  - "If YES to current protective or restraining order, please attach": protective_order_restraining_order
+    datatype: file
 ---
 id: Legal Proceedings
 question: |
   Legal Proceedings
-subquestion: |
-  Provide details about any legal proceedings.
+subquestion: |2
+  There been a proceeding in the past in Connecticut or in any other state affecting the custody of the minor child?
 fields:
-  - Has there been a proceeding in the past in Connecticut or any state affecting the custody of the minor child: has_been_a_proceeding
+  - Has there been a proceeding in the past in Connecticut or any state affecting the custody of the minor child?: past_proceeding
     datatype: yesnoradio
-  - Is there a current safety or service agreement between the Department of Children and Families and the parent/guardian of the minor child.: is_
-    datatype: yesnoradio
-  - Is there a current protective order or restraining order involving any party: is_not
-    datatype: yesnoradio
-  - label: "If YES to current protective or restraining order, please attach"
-    field: protective_order_restraining_order
-    datatype: url
-    required: False
 ---
 id: Guardianship Terms
 question: |
@@ -263,7 +265,7 @@ question: |
 subquestion: |
   Sign and provide details of the petitioners.
 fields:
-  - "Petitioner's Signature": Petitioners_Name
+  - "Petitioner's Signature": Petitioners_signature
     datatype: area
   - Type or print name of petitioner: Type_or_Print_Name_1
   - "Date ": Date1
@@ -377,11 +379,11 @@ review:
       Is there a pending proceeding: ${ word(yesno(is_a_proceeding)) if defined('is_a_proceeding') else '' }
 
       Is not a pending proceeding: ${ word(yesno(is_not_a_proceeding)) if defined('is_not_a_proceeding') else '' }
-  - Edit: has_been_a_proceeding
+  - Edit: past_proceeding
     button: |
       **Legal Proceedings**
 
-      Has been a proceeding: ${ word(yesno(has_been_a_proceeding)) if defined('has_been_a_proceeding') else '' }
+      Has been a proceeding: ${ word(yesno(past_proceeding)) if defined('past_proceeding') else '' }
 
       Has not been a proceeding: ${ word(yesno(has_not_been_a_proceeding)) if defined('has_not_been_a_proceeding') else '' }
 
@@ -540,11 +542,11 @@ review:
       **Is not a pending proceeding**
 
       Is not a pending proceeding: ${ word(yesno(is_not_a_proceeding)) if defined('is_not_a_proceeding') else '' }
-  - Edit: has_been_a_proceeding
+  - Edit: past_proceeding
     button: |
       **Has been a proceeding**
 
-      Has been a proceeding: ${ word(yesno(has_been_a_proceeding)) if defined('has_been_a_proceeding') else '' }
+      Has been a proceeding: ${ word(yesno(past_proceeding)) if defined('past_proceeding') else '' }
   - Edit: has_not_been_a_proceeding
     button: |
       **Has not been a proceeding**
@@ -718,18 +720,18 @@ attachment:
       - "Address_where_minor_child_is_located_at_time_of_filing_petition_if_different": ${ Address_where_minor_child_is_located_at_time_of_filing_petition_if_different }
       - "Petitioner_Name_address_and_telephone_number": ${ Petitioner_Name_address_and_telephone_number }
       - "Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date": ${ Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date }
-      - "Parent": ${ Parent }
-      - "Courtappointed_Guardian": ${ Courtappointed_Guardian }
+      - "Parent": ${ parent_or_court_appointed_guardian == "Parent" }
+      - "Courtappointed_Guardian": ${ parent_or_court_appointed_guardian == "Court-Appointed Guardian" }
       - "Mother_Parent": ${ Mother_Parent }
       - "FatherParent_If_father_is_unknown_so_state": ${ FatherParent_If_father_is_unknown_so_state }
       - "Guardians_of_the_Person_of_the_Minor_Child": ${ Guardians_of_the_Person_of_the_Minor_Child }
       - "Reasons": ${ Reasons }
       - "has_resided": ${ has_resided }
-      - "has_not_resided": ${ has_not_resided }
-      - "is_a_proceeding": ${ is_a_proceeding }
-      - "is_not_a_proceeding": ${ is_not_a_proceeding }
-      - "has_been_a_proceeding": ${ has_been_a_proceeding }
-      - "has_not_been_a_proceeding": ${ has_not_been_a_proceeding }
+      - "has_not_resided": ${ not has_resided  }
+      - "is_a_proceeding": ${ current_proceeding } 
+      - "is_not_a_proceeding": ${ not current_proceeding }
+      - "has_been_a_proceeding": ${ past_proceeding } 
+      - "has_not_been_a_proceeding": ${ not past_proceeding } 
       - "is": ${ is_ }
       - "is_not": ${ is_not }
       - "is_3": ${ is_3 }
