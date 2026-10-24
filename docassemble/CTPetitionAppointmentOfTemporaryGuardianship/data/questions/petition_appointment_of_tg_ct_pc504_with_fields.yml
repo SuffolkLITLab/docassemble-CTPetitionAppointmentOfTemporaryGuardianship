@@ -109,9 +109,11 @@ code: |
   users1_recieveddate
   Minor_Childs_Date_of_Birth
   nav.set_section('petitioner_and_guardian')
-  Petitioner_Name_address_and_telephone_number
+  users1_Name_address_and_telephone_number
   nav.set_section('guardianship_rights_and_reasons')
   set_progress(22)
+  users.gather()
+  guardians.gather() #rename to use this later note to self 
   Mother_Parent
   Reasons
   parent_or_court_appointed_guardian
@@ -135,6 +137,7 @@ code: |
   petition_appointment_of_tg_ct_pc504_with_fields_intro
   interview_order_petition_appointment_of_tg_ct_pc504_with_fields
   signature_date
+  basic_questions_signature_flow
   # Store anonymous data for analytics / statistics
   store_variables_snapshot(
       persistent=True,
@@ -191,8 +194,8 @@ fields:
 id: question_1790104605424
 question: Petitioner and Proposed Temporary Guardian Information
 fields:
-  - "Petitioner name, address, telephone number": Petitioner_Name_address_and_telephone_number
-  - "Proposed Temporary Guardian name, address, telephone number": Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date
+  - "Petitioner name, address, telephone number": users1_Name_address_and_telephone_number
+  - "Proposed Temporary Guardian name, address, telephone number": guardians1_Name_address_telephone_number_and_birth_date
 ---
 id: Guardianship Rights
 question: |
@@ -319,6 +322,9 @@ code: |
   [user.address.address for user in users.complete_elements()]
   addresses_to_search = [user.address for user in users.complete_elements()]
 ---
+code: |
+  signature_fields = [u.attr_name("signature") for u in users.complete_elements()]+ [g.attr_name("signature") for g in guardians.complete_elements()]
+---
 id: petition appointment of tg ct pc504 with fields review screen
 event: review_petition_appointment_of_tg_ct_pc504_with_fields
 question: |
@@ -346,13 +352,13 @@ review:
       Address where minor child is domiciled: ${ showifdef('Address_where_minor_child_is_domiciled_if_different') }
 
       Address where minor child is located: ${ showifdef('Address_where_minor_child_is_located_at_time_of_filing_petition_if_different') }
-  - Edit: Petitioner_Name_address_and_telephone_number
+  - Edit: users1_Name_address_and_telephone_number
     button: |
       **Petitioner and Guardian Information**
 
-      Petitioner name and contact info: ${ showifdef('Petitioner_Name_address_and_telephone_number') }
+      Petitioner name and contact info: ${ showifdef('users1_Name_address_and_telephone_number') }
 
-      Proposed guardian's details: ${ showifdef('Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date') }
+      Proposed guardian's details: ${ showifdef('guardians1_Name_address_telephone_number_and_birth_date') }
 
       Parent: ${ word(yesno(Parent)) if defined('Parent') else '' }
 
@@ -399,11 +405,11 @@ review:
     button: |
       **Signatures**
 
-      Petitioner's name: ${ showifdef('Petitioners_Name') }
+      Petitioner's name: ${ showifdef('users1_Name') }
 
       Date of first signature: ${ showifdef('Date1') }
 
-      Petitioner's second name: ${ showifdef('Petitioners_Name2') }
+      Petitioner's second name: ${ showifdef('users2_Name') }
 
       Date of second signature: ${ showifdef('Date2') }
 
@@ -482,11 +488,11 @@ review:
       **Address where minor child is located**
 
       Address where minor child is located: ${ showifdef('Address_where_minor_child_is_located_at_time_of_filing_petition_if_different') }
-  - Edit: Petitioner_Name_address_and_telephone_number
+  - Edit: users1_Name_address_and_telephone_number
     button: |
       **Petitioner name and contact info**
 
-      Petitioner name and contact info: ${ showifdef('Petitioner_Name_address_and_telephone_number') }
+      Petitioner name and contact info: ${ showifdef('users1_Name_address_and_telephone_number') }
   - Edit: Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date
     button: |
       **Proposed guardian's details**
@@ -567,21 +573,21 @@ review:
       **Termination date of guardianship**
 
       Termination date of guardianship: ${ showifdef('Termination_date') }
-  - Edit: Petitioners_Name
+  - Edit: users1_Name
     button: |
       **Petitioner's name**
 
-      Petitioner's name: ${ showifdef('Petitioners_Name') }
+      Petitioner's name: ${ showifdef('users1_Name') }
   - Edit: Date1
     button: |
       **Date of first signature**
 
       Date of first signature: ${ showifdef('Date1') }
-  - Edit: Petitioners_Name2
+  - Edit: users2_name
     button: |
       **Petitioner's second name**
 
-      Petitioner's second name: ${ showifdef('Petitioners_Name2') }
+      Petitioner's second name: ${ showifdef('users2_name') }
   - Edit: Date2
     button: |
       **Date of second signature**
@@ -718,8 +724,8 @@ attachment:
       - "Address_where_minor_child_resides": ${ Address_where_minor_child_resides }
       - "Address_where_minor_child_is_domiciled_if_different": ${ Address_where_minor_child_is_domiciled_if_different }
       - "Address_where_minor_child_is_located_at_time_of_filing_petition_if_different": ${ Address_where_minor_child_is_located_at_time_of_filing_petition_if_different }
-      - "Petitioner_Name_address_and_telephone_number": ${ Petitioner_Name_address_and_telephone_number }
-      - "Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date": ${ Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date }
+      - "Petitioner_Name_address_and_telephone_number": ${ users1_Name_address_and_telephone_number }
+      - "Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date": ${ guardians1_Name_address_telephone_number_and_birth_date }
       - "Parent": ${ parent_or_court_appointed_guardian == "Parent" }
       - "Courtappointed_Guardian": ${ parent_or_court_appointed_guardian == "Court-Appointed Guardian" }
       - "Mother_Parent": ${ Mother_Parent }
@@ -739,9 +745,9 @@ attachment:
       - "is_2": ${ is_2 }
       - "is_not_3": ${ is_not_3 }
       - "Termination_date": ${ Termination_date.format() }
-      - "Petitioners_Name": ${ Petitioners_Name }
+      - "users1_Name": ${ users1_Name }
       - "Date1": ${ Date1.format() }
-      - "Petitioners_Name2": ${ Petitioners_Name2 }
+      - "users2_Name": ${ users2_Name }
       - "Date2": ${ Date2.format() }
       - "Type_or_Print_Name_1": ${ Type_or_Print_Name_1 }
       - "Date3": ${ Date3.format() }
@@ -751,3 +757,7 @@ attachment:
       - "Date4": ${ Date4.format() }
       - "Address2": ${ Address2 }
       - "Telephone_number2": ${ Telephone_number2 }
+      - "users1_signature": ${ users[0].signature }
+      - "users2_signature": ${ users[1].signature }
+      - "guardians1_signature": ${ guardians[0].signature }
+      - "guardians2_signature": ${ guardians[1].signature }
