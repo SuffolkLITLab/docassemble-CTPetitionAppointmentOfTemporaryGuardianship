@@ -110,14 +110,19 @@ code: |
   Minor_Childs_Date_of_Birth
   nav.set_section('petitioner_and_guardian')
   users1_Name_address_and_telephone_number
+  parent_or_court_appointed_guardian
   nav.set_section('guardianship_rights_and_reasons')
   set_progress(22)
   users.gather()
-  guardians.gather() #rename to use this later note to self 
+  guardians.gather() 
   Mother_Parent
   Reasons
-  parent_or_court_appointed_guardian
   nav.set_section('legal_proceedings_and_terms')
+  past_proceeding
+  current_safety_service_agreement
+  current_protective_restraining_order
+  protective_order_restraining_order
+  preexisting_child_support_order
   #has_been_a_proceeding 
   set_progress(45)
   Termination_date
@@ -226,23 +231,12 @@ fields:
 id: question_1792760732917
 question: "Is the Petitioner a Parent or a Court-Appointed Guardian "
 fields:
-  - Parent of CAG: parent_or_court_appointed_guardian
+  - "Parent or Court-Appointed Guardian ": parent_or_court_appointed_guardian
     datatype: radio
     choices:
       - Parent
       - Court-Appointed Guardian
       - Neither
----
-id: Protective or Restraining Order Attachment
-question: 
-  "Legal Proceedings"
-fields: 
-  - Is there a current safety or service agreement between the Department of Children and Families and the parent/guardian of the minor child?: current_safety_or_service_agreement
-    datatype: yesnoradio
-  - Is there a current protective or restraining order involving any party?: current_protective_or_restraining_order
-    datatype: yesnoradio
-  - "If YES to current protective or restraining order, please attach": protective_order_restraining_order
-    datatype: file
 ---
 id: Legal Proceedings
 question: |
@@ -251,6 +245,19 @@ subquestion: |2
   There been a proceeding in the past in Connecticut or in any other state affecting the custody of the minor child?
 fields:
   - Has there been a proceeding in the past in Connecticut or any state affecting the custody of the minor child?: past_proceeding
+    datatype: yesnoradio
+---
+id: Protective or Restraining Order Attachment
+question: 
+  "Legal Proceedings"
+fields: 
+  - Is there a current safety or service agreement between the Department of Children and Families and the parent/guardian of the minor child?: current_safety_service_agreement
+    datatype: yesnoradio
+  - Is there a current protective or restraining order involving any party?: current_protective_restraining_order
+    datatype: yesnoradio
+  - "If YES to current protective or restraining order, please attach": protective_order_restraining_order
+    datatype: file
+  - Is the minor child the subject of a pre-existing child support order: preexisting_child_support_order
     datatype: yesnoradio
 ---
 id: Guardianship Terms
@@ -738,6 +745,12 @@ attachment:
       - "is_not_a_proceeding": ${ not current_proceeding }
       - "has_been_a_proceeding": ${ past_proceeding } 
       - "has_not_been_a_proceeding": ${ not past_proceeding } 
+      - "current_safety_service_agreement": ${ current_safety_service_agreement }
+      - "no_current_safety_service_agreement": ${ not current_safety_service_agreement }
+      - "current_protective_restraining_order": ${ current_protective_restraining_order }
+      - "no_current_protective_restraining_order": ${ not current_protective_restraining_order }
+      - "preexisting_child_support_order": ${ preexisting_child_support_order }
+      - "no_preexisting_child_support_order": ${ not preexisting_child_support_order }
       - "is": ${ is_ }
       - "is_not": ${ is_not }
       - "is_3": ${ is_3 }
