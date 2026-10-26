@@ -89,6 +89,7 @@ code: |
 ---
 objects:
   - users: ALPeopleList.using(there_are_any=True)
+  - guardians: ALPeopleList.using(there_are_any=True, complete_attribute= 'address.address')
 ---
 sections:
   - petition_and_child: Petition and Child Details
@@ -114,7 +115,7 @@ code: |
   nav.set_section('guardianship_rights_and_reasons')
   set_progress(22)
   users.gather()
-  guardians.gather() 
+  guardians.gather()
   Mother_Parent
   Reasons
   nav.set_section('legal_proceedings_and_terms')
@@ -718,10 +719,10 @@ attachment:
 ---
 attachment:
   name: petition appointment of tg ct pc504 with fields
-  filename: petition_appointment_of_tg_ct_pc504_with_fields
+  filename: CTPetitionAppointmentOfTemporaryGuardianship
   variable name: petition_appointment_of_tg_ct_pc504_with_fields_attachment[i]
   skip undefined: True
-  pdf template file: Petition_Appointment_of_TG_CT_PC-504_with_fields.pdf
+  pdf template file: CTPetitionAppointmentOfTemporaryGuardianship.pdf
   fields:
       - "users1_recieveddate": ${ users1_recieveddate.format() }
       - "Probate_Court_Name": ${ Probate_Court_Name }
@@ -751,24 +752,18 @@ attachment:
       - "no_current_protective_restraining_order": ${ not current_protective_restraining_order }
       - "preexisting_child_support_order": ${ preexisting_child_support_order }
       - "no_preexisting_child_support_order": ${ not preexisting_child_support_order }
-      - "is": ${ is_ }
-      - "is_not": ${ is_not }
-      - "is_3": ${ is_3 }
-      - "is_not_2": ${ is_not_2 }
-      - "is_2": ${ is_2 }
-      - "is_not_3": ${ is_not_3 }
       - "Termination_date": ${ Termination_date.format() }
-      - "users1_Name": ${ users1_Name }
-      - "Date1": ${ Date1.format() }
-      - "users2_Name": ${ users2_Name }
-      - "Date2": ${ Date2.format() }
-      - "Type_or_Print_Name_1": ${ Type_or_Print_Name_1 }
-      - "Date3": ${ Date3.format() }
-      - "Address1": ${ Address1 }
+      - "users1_name": ${ users[0].name }
+      - "Date1": ${ today() }
+      - "users2_name": ${ users[1].name }
+      - "Date2": ${ today() }
+      - "guardians1_name": ${ guardians[0].name }
+      - "Date3": ${ today() }
+      - "Address1": ${ guardians[0].address }
       - "Telephone_number1": ${ Telephone_number1 }
-      - "Type_or_Print_Name_2": ${ Type_or_Print_Name_2 }
-      - "Date4": ${ Date4.format() }
-      - "Address2": ${ Address2 }
+      - "guardians2_name": ${ guardians[1].name }
+      - "Date4": ${ today() }
+      - "Address2": ${ guardians[1].address }
       - "Telephone_number2": ${ Telephone_number2 }
       - "users1_signature": ${ users[0].signature }
       - "users2_signature": ${ users[1].signature }
