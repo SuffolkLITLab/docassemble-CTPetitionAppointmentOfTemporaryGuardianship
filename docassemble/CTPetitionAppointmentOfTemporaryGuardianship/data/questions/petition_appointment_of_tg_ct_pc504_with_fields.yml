@@ -92,11 +92,11 @@ objects:
   - guardians: ALPeopleList.using(there_are_any=True, complete_attribute= 'address.address')
 ---
 sections:
-  - petition_and_child: Petition and Child Details
-  - guardianship_rights_and_reasons: Rights and Reasons for Guardianship
-  - legal_proceedings_and_terms: Legal Proceedings and Guardianship Terms
-  - petitioner_and_guardian: Petitioner and Guardian Information
-  - review_and_sign: Review, Sign, and Submit
+  - petition_and_child: Petition and child details
+  - guardianship_rights_and_reasons: Rights and reasons for guardianship
+  - legal_proceedings_and_terms: Legal proceedings and guardianship terms
+  - petitioner_and_guardian: Petitioner and guardian information
+  - review_and_sign: Review, sign, and submit
   - review_petition_appointment_of_tg_ct_pc504_with_fields: Review your answers
 ---
 #################### Interview order #####################
@@ -122,7 +122,6 @@ code: |
   past_proceeding
   current_safety_service_agreement
   current_protective_restraining_order
-  protective_order_restraining_order
   preexisting_child_support_order
   #has_been_a_proceeding 
   set_progress(45)
@@ -179,7 +178,7 @@ fields:
     datatype: date
   - "Probate court name": Probate_Court_Name
   - "District number": District_No
-  - "In the matter of": In_the_Matter_of
+  - "Minor child's last name (In the matter of)": In_the_Matter_of
 ---
 id: Minor Child Information
 question: |
@@ -189,11 +188,11 @@ subquestion: |
 fields:
   - "Minor child's date of birth": Minor_Childs_Date_of_Birth
     datatype: date
-  - "Address where minor child resides": Address_where_minor_child_resides
-  - label: Address where minor child is domiciled (if different from residence)
+  - Address where minor child lives: Address_where_minor_child_resides
+  - label: Legal address where minor child lives (if different from where child lives)
     field: Address_where_minor_child_is_domiciled_if_different
     required: False
-  - label: Address where minor child is located (if different from residence)
+  - label: Address where minor child is currently located (if different from where minor child lives)
     field: Address_where_minor_child_is_located_at_time_of_filing_petition_if_different
     required: False
 ---
@@ -254,10 +253,8 @@ question:
 fields: 
   - Is there a current safety or service agreement between the Department of Children and Families and the parent/guardian of the minor child?: current_safety_service_agreement
     datatype: yesnoradio
-  - Is there a current protective or restraining order involving any party?: current_protective_restraining_order
+  - Is there a current protective or restraining order involving any party? (if YES please attach): current_protective_restraining_order
     datatype: yesnoradio
-  - "If YES to current protective or restraining order, please attach": protective_order_restraining_order
-    datatype: file
   - Is the minor child the subject of a pre-existing child support order: preexisting_child_support_order
     datatype: yesnoradio
 ---
@@ -759,11 +756,11 @@ attachment:
       - "Date2": ${ today() }
       - "guardians1_name": ${ guardians[0].name }
       - "Date3": ${ today() }
-      - "Address1": ${ guardians[0].address }
+      - "Address1": ${ guardians[0].address.address }
       - "Telephone_number1": ${ Telephone_number1 }
       - "guardians2_name": ${ guardians[1].name }
       - "Date4": ${ today() }
-      - "Address2": ${ guardians[1].address }
+      - "Address2": ${ guardians[1].address.address }
       - "Telephone_number2": ${ Telephone_number2 }
       - "users1_signature": ${ users[0].signature }
       - "users2_signature": ${ users[1].signature }
