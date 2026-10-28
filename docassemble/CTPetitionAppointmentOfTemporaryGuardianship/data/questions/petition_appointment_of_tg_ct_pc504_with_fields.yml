@@ -89,7 +89,8 @@ code: |
 ---
 objects:
   - users: ALPeopleList.using(there_are_any=True)
-  - guardians: ALPeopleList.using(there_are_any=True, complete_attribute= 'address.address')
+  - guardians: ALPeopleList.using(there_are_any=True, complete_attribute=['address.address',
+        'telephone_number'])
 ---
 sections:
   - petition_and_child: Petition and child details
@@ -200,7 +201,11 @@ id: question_1790104605424
 question: Petitioner and Proposed Temporary Guardian Information
 fields:
   - "Petitioner name, address, telephone number": users1_Name_address_and_telephone_number
-  - "Proposed Temporary Guardian name, address, telephone number": guardians1_Name_address_telephone_number_and_birth_date
+  - "Proposed Temporary Guardian name": guardians[0].name
+  - "Proposed Temporary Guardian address": guardians[0].address.address
+  - "Proposed Temporary Guardian telephone number": guardians[0].telephone_number
+  - "Proposed Temporary Guardian birth date": guardians[0].birthdate
+    datatype: date
 ---
 id: Guardianship Rights
 question: |
@@ -757,11 +762,11 @@ attachment:
       - "guardians1_name": ${ guardians[0].name }
       - "Date3": ${ today() }
       - "Address1": ${ guardians[0].address.address }
-      - "Telephone_number1": ${ Telephone_number1 }
+      - "Telephone_number1": ${ guardians[0].telephone_number }
       - "guardians2_name": ${ guardians[1].name }
       - "Date4": ${ today() }
       - "Address2": ${ guardians[1].address.address }
-      - "Telephone_number2": ${ Telephone_number2 }
+      - "Telephone_number2": ${ guardians[1].telepone_number }
       - "users1_signature": ${ users[0].signature }
       - "users2_signature": ${ users[1].signature }
       - "guardians1_signature": ${ guardians[0].signature }
