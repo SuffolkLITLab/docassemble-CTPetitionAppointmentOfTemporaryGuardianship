@@ -5,7 +5,7 @@ include:
 ---
 metadata:
   title: >-
-    Petition Appointment of TG CT PC-504 with fields
+    Get a temporary guardian for a child in Connecticut 
   short title: >-
     Petition Appointment of T
   description: |-
@@ -114,7 +114,7 @@ code: |
   users1_Name_address_and_telephone_number
   parent_or_court_appointed_guardian
   nav.set_section('guardianship_rights_and_reasons')
-  set_progress(22)
+  set_progress(22) # set the progress per 
   users.gather()
   guardians.gather()
   Mother_Parent
@@ -157,43 +157,39 @@ code: |
 ---
 id: Petition Appointment of TG CT PC 504 with fields intro
 continue button field: petition_appointment_of_tg_ct_pc504_with_fields_intro
-question: |
-  Petition Appointment of TG CT PC-504 with fields
-subquestion: |
+question: "Get a temporary guardian for my child in Connecticut"
+subquestion: |2
   ## Before you get started
-  - Ensure you have the minor's birth certificate and the Affidavit Concerning Children (JD-FM-164).
-  - Gather all necessary information about the minor and the proposed guardian.
-
+  - Make sure you have the child's birth certificate and the Affidavit Concerning Children (JD-FM-164).
+  - Get all information about the child and the proposed guardian.
+  
   ## When you are finished
-  - Submit the completed petition along with the required documents to the appropriate probate court.
-
-  You can use this form if you are a parent or a court-appointed guardian of a minor. Make sure to file it in the probate district where the child resides.
+  - Submit the completed petition along with the required documents to the appropriate probate court. There will be a document at the end of the interview that will tell you what to do next. 
+  
+  You can use this form if you are a parent or a court-appointed guardian of a minor. Make sure to file it in the probate district where the child resides. 
 ---
 id: Petition Details
-question: |
-  Petition Details
-subquestion: |
-  Provide the basic details of the petition.
+question: |2
+  Petition details
+subquestion: |2-
+  Click this link to figure out which court name and district number is right for your petition: 
+  [CT probate court locator](https://https://www.ctprobate.gov/court-locator)
 fields:
-  - "Date petition received": users1_recieveddate
-    datatype: date
-  - "Probate court name": Probate_Court_Name
-  - "District number": District_No
-  - "Minor child's last name (In the matter of)": In_the_Matter_of
+  - Probate court name: Probate_Court_Name
+  - District number: District_No
+  - "Child's last name (In the matter of)": In_the_Matter_of
 ---
 id: Minor Child Information
-question: |
-  Minor Child Information
-subquestion: |
-  Enter the minor child's details.
+question: |2
+  Child information
 fields:
-  - "Minor child's date of birth": Minor_Childs_Date_of_Birth
+  - when was the child born?: Minor_Childs_Date_of_Birth
     datatype: date
-  - Address where minor child lives: Address_where_minor_child_resides
-  - label: Legal address where minor child lives (if different from where child lives)
+  - where does the child live?: Address_where_minor_child_resides
+  - label: "what is the address of child's permanent home? (if different from where child lives)"
     field: Address_where_minor_child_is_domiciled_if_different
     required: False
-  - label: Address where minor child is currently located (if different from where minor child lives)
+  - label: where is the child while this form is being filled out (if different from where child lives)
     field: Address_where_minor_child_is_located_at_time_of_filing_petition_if_different
     required: False
 ---
@@ -761,12 +757,12 @@ attachment:
       - "Date2": ${ today() }
       - "guardians1_name": ${ guardians[0].name }
       - "Date3": ${ today() }
-      - "Address1": ${ guardians[0].address.address }
-      - "Telephone_number1": ${ guardians[0].telephone_number }
+      - "guardians1_address": ${ guardians[0].address.on_one_line() }
+      - "guardians1_telephone_number": ${ guardians[0].telephone_number }
       - "guardians2_name": ${ guardians[1].name }
       - "Date4": ${ today() }
-      - "Address2": ${ guardians[1].address.address }
-      - "Telephone_number2": ${ guardians[1].telepone_number }
+      - "guardians2_address": ${ guardians[1].address.on_one_line() }
+      - "guardians2_telephone_number": ${ guardians[1].telephone_number }
       - "users1_signature": ${ users[0].signature }
       - "users2_signature": ${ users[1].signature }
       - "guardians1_signature": ${ guardians[0].signature }
