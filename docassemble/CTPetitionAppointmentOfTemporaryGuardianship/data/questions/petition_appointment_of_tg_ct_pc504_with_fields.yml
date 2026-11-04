@@ -93,10 +93,11 @@ objects:
         'telephone_number'])
 ---
 sections:
-  - petition_and_child: Petition and child details
+  - Probate_Court_Name: Petiton Details
+  - child_details: Child details
+  - petitioner_and_guardian: Petitioner and guardian information
   - guardianship_rights_and_reasons: Rights and reasons for guardianship
   - legal_proceedings_and_terms: Legal proceedings and guardianship terms
-  - petitioner_and_guardian: Petitioner and guardian information
   - review_and_sign: Review, sign, and submit
   - review_petition_appointment_of_tg_ct_pc504_with_fields: Review your answers
 ---
@@ -105,14 +106,15 @@ comment: |
   Controls order and branching logic for questions specific to this form
 id: interview_order_petition_appointment_of_tg_ct_pc504_with_fields
 code: |
+  nav.set_section('Petition details')
   user_role = "plaintiff"
   user_ask_role = "plaintiff"
-  nav.set_section('petition_and_child')
-  users1_recieveddate
+  Probate_Court_Name
+  nav.set_section('child_details')
   Minor_Childs_Date_of_Birth
   nav.set_section('petitioner_and_guardian')
-  users1_Name_address_and_telephone_number
   parent_or_court_appointed_guardian
+  users1_Name_address_and_telephone_number
   nav.set_section('guardianship_rights_and_reasons')
   set_progress(22) # set the progress per 
   users.gather()
@@ -129,7 +131,6 @@ code: |
   Termination_date
   nav.set_section('review_and_sign')
   #Petitioners_Name
-  nav.set_section('petition_and_child')
   set_progress(68)
   interview_order_petition_appointment_of_tg_ct_pc504_with_fields = True
 ---
@@ -179,7 +180,7 @@ fields:
   - District number: District_No
   - "Child's last name (In the matter of)": In_the_Matter_of
 ---
-id: Minor Child Information
+id: Child Information
 question: |2
   Child information
 fields:
@@ -193,19 +194,32 @@ fields:
     field: Address_where_minor_child_is_located_at_time_of_filing_petition_if_different
     required: False
 ---
-id: question_1790104605424
-question: Petitioner and Proposed Temporary Guardian Information
+id: question_1792760732917
+question: "Who is filling out this form? the child's Parent or a Court-appointed guardian? "
 fields:
-  - "Petitioner name, address, telephone number": users1_Name_address_and_telephone_number
-  - "Proposed Temporary Guardian name": guardians[0].name
-  - "Proposed Temporary Guardian address": guardians[0].address.address
-  - "Proposed Temporary Guardian telephone number": guardians[0].telephone_number
-  - "Proposed Temporary Guardian birth date": guardians[0].birthdate
+  - "Parent or Court-appointed guardian ": parent_or_court_appointed_guardian
+    datatype: radio
+    choices:
+      - Parent
+      - Court-Appointed Guardian
+---
+id: question_1793735580896
+question: "Your information"
+fields:
+  - "What is your name, address, and telephone number": users1_Name_address_and_telephone_number
+---
+id: question_1790104605424
+question: "Proposed temporary guardian information"
+fields:
+  - Proposed Temporary Guardian name: guardians[0].name
+  - Proposed Temporary Guardian address: guardians[0].address.address
+  - Proposed Temporary Guardian telephone number: guardians[0].telephone_number
+  - Proposed Temporary Guardian birth date: guardians[0].birthdate
     datatype: date
 ---
 id: Guardianship Rights
-question: |
-  Guardianship Rights
+question: |2
+  Child's parents information
 subquestion: |
   List individuals with guardianship rights. (For each person, list name, address,
   telephone number, including the date of birth for any person who is under the age of 18, any person in the military service
@@ -218,54 +232,40 @@ fields:
     required: False
 ---
 id: Reasons for Guardianship
-question: |
-  Reasons for Guardianship
-subquestion: |
-  State the reasons for requesting guardianship.
+question: |2
+  Reasons for guardianship
 fields:
-  - Reasons for guardianship request: Reasons
-  - Has the minor child resided in Connecticut continuously for the past 6 months?: has_resided
+  - "Reasons for guardianship request ": Reasons
+  - Has the child lived in Connecticut continuously for the past 6 months?: has_resided
     datatype: yesnoradio
-  - Is there a pending or contemplated proceeding in Connecticut or any state affecting the custody of the minor child: current_proceeding
+  - "Is anyone fighting over or going to court about custody of this child, in any state?": current_proceeding
     datatype: yesnoradio
----
-id: question_1792760732917
-question: "Is the Petitioner a Parent or a Court-Appointed Guardian "
-fields:
-  - "Parent or Court-Appointed Guardian ": parent_or_court_appointed_guardian
-    datatype: radio
-    choices:
-      - Parent
-      - Court-Appointed Guardian
-      - Neither
 ---
 id: Legal Proceedings
-question: |
-  Legal Proceedings
-subquestion: |2
-  There been a proceeding in the past in Connecticut or in any other state affecting the custody of the minor child?
+question: |2
+  Legal proceedings
+subquestion: |2+
+  
 fields:
-  - Has there been a proceeding in the past in Connecticut or any state affecting the custody of the minor child?: past_proceeding
+  - Has there been a proceeding in the past in Connecticut or any state affecting the custody of the child?: past_proceeding
     datatype: yesnoradio
 ---
 id: Protective or Restraining Order Attachment
 question: 
-  "Legal Proceedings"
+  "Legal proceedings"
 fields: 
   - Is there a current safety or service agreement between the Department of Children and Families and the parent/guardian of the minor child?: current_safety_service_agreement
     datatype: yesnoradio
-  - Is there a current protective or restraining order involving any party? (if YES please attach): current_protective_restraining_order
+  - Does anyone involved have a a current protective or restraining order? (if YES you must bring it to the court): current_protective_restraining_order
     datatype: yesnoradio
-  - Is the minor child the subject of a pre-existing child support order: preexisting_child_support_order
+  - Has the court ordered someone to pay child support for this child?: preexisting_child_support_order
     datatype: yesnoradio
 ---
 id: Guardianship Terms
-question: |
-  Guardianship Terms
-subquestion: |
-  Specify the terms of the proposed guardianship.
+question: |2
+  When should the guardianship end? (1 year at most)
 fields:
-  - Termination date of guardianship (1 year maximum): Termination_date
+  - Guardianship end date: Termination_date
     datatype: date
 ---
 id: Signatures
@@ -336,11 +336,9 @@ event: review_petition_appointment_of_tg_ct_pc504_with_fields
 question: |
   Review your answers
 review:
-  - Edit: users1_recieveddate
+  - Edit: Probate_Court_Name
     button: |
       **Petition Details**
-
-      Date petition received: ${ showifdef('users1_recieveddate') }
 
       Probate court name: ${ showifdef('Probate_Court_Name') }
 
@@ -454,11 +452,7 @@ review:
       **Is not 3**
 
       Is not 3: ${ word(yesno(is_not_3)) if defined('is_not_3') else '' }
-  - Edit: users1_recieveddate
-    button: |
-      **Date petition received**
 
-      Date petition received: ${ showifdef('users1_recieveddate') }
   - Edit: Probate_Court_Name
     button: |
       **Probate court name**
@@ -722,7 +716,6 @@ attachment:
   skip undefined: True
   pdf template file: CTPetitionAppointmentOfTemporaryGuardianship.pdf
   fields:
-      - "users1_recieveddate": ${ users1_recieveddate.format() }
       - "Probate_Court_Name": ${ Probate_Court_Name }
       - "District_No": ${ District_No }
       - "In_the_Matter_of": ${ In_the_Matter_of }
