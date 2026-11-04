@@ -214,8 +214,8 @@ fields:
   - Proposed Temporary Guardian name: guardians[0].name
   - Proposed Temporary Guardian address: guardians[0].address.address
   - Proposed Temporary Guardian telephone number: guardians[0].telephone_number
-  - Proposed Temporary Guardian birth date: guardians[0].birthdate
-    datatype: date
+  - Proposed Temporary Guardian birth date: guardians[0].birth_date
+    datatype: BirthDate
 ---
 id: Guardianship Rights
 question: |2
