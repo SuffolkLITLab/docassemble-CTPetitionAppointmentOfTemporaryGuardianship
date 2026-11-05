@@ -64,8 +64,8 @@ code: |
   github_repo_name = 'docassemble-PetitionAppointmentOfTgCtPc504WithFields'
 ---
 template: interview_short_title
-content: |
-  Petition for Temporary Guardian Appointment
+content: |2
+  Petition for temporary guardian appointment
 ---
 code: |
   al_form_type = "starts_case"
@@ -185,7 +185,7 @@ question: |2
   Child information
 fields:
   - when was the child born?: Minor_Childs_Date_of_Birth
-    datatype: date
+    datatype: BirthDate
   - where does the child live?: Address_where_minor_child_resides
   - label: "what is the address of child's permanent home? (if different from where child lives)"
     field: Address_where_minor_child_is_domiciled_if_different
@@ -212,21 +212,30 @@ id: question_1790104605424
 question: "Proposed temporary guardian information"
 fields:
   - Proposed Temporary Guardian name: guardians[0].name
-  - Proposed Temporary Guardian address: guardians[0].address.address
-  - Proposed Temporary Guardian telephone number: guardians[0].telephone_number
-  - Proposed Temporary Guardian birth date: guardians[0].birth_date
+  - code: |
+      guardians[0].address.address.address_fields()
+
+  - Proposed Temporary Guardian telephone number: "guardians[0].telephone_number"
+    datatype: al_international_phone
+  - "Proposed Temporary Guardian date of birth ": "guardians[0].birth_date"
     datatype: BirthDate
+sets:
+  - "guardians[0].address.address.address.address"
+  - "guardians[0].address.address.address.city"
+  - "guardians[0].address.address.address.zip"
+  - "guardians[0].address.address.address.unit"
+  - "guardians[0].address.address.address.state"
+  - "guardians[0].address.address.address.country"
 ---
 id: Guardianship Rights
 question: |2
   Child's parents information
-subquestion: |
-  List individuals with guardianship rights. (For each person, list name, address,
-  telephone number, including the date of birth for any person who is under the age of 18, any person in the military service
+subquestion: |2
+  List ALL people who have guardianship rights over the child. (For each person, list name, address, telephone number, including the date of birth for any person who is under the age of 18, any person in the military service
   or any person under conservatorship or legal disability)
 fields:
   - "Mother's details": Mother_Parent
-  - "Father's details or unknown status": FatherParent_If_father_is_unknown_so_state
+  - "Father's details (if you do not know, write unknown status)": FatherParent_If_father_is_unknown_so_state
   - label: Guardians of the minor child
     field: Guardians_of_the_Person_of_the_Minor_Child
     required: False
@@ -235,8 +244,8 @@ id: Reasons for Guardianship
 question: |2
   Reasons for guardianship
 fields:
-  - "Reasons for guardianship request ": Reasons
-  - Has the child lived in Connecticut continuously for the past 6 months?: has_resided
+  - Why are you making this request for guardianship?: Reasons
+  - Has the child been living in Connecticut for the past 6 months?: has_resided
     datatype: yesnoradio
   - "Is anyone fighting over or going to court about custody of this child, in any state?": current_proceeding
     datatype: yesnoradio
@@ -267,6 +276,8 @@ question: |2
 fields:
   - Guardianship end date: Termination_date
     datatype: date
+    min: ${ today() }
+    max: ${ today().plus(years=1) }
 ---
 id: Signatures
 question: |
@@ -274,12 +285,12 @@ question: |
 subquestion: |
   Sign and provide details of the petitioners.
 fields:
-  - "Petitioner's Signature": Petitioners_signature
+  - "Petitioner's signature": Petitioners_signature
     datatype: area
   - Type or print name of petitioner: Type_or_Print_Name_1
   - "Date ": Date1
     datatype: date
-  - label: "Petitioner's Signature "
+  - label: "Petitioner's signature "
     field: Petitioners_Name2
     datatype: area
     required: False
