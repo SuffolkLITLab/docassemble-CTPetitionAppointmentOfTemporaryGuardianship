@@ -245,6 +245,7 @@ question: |2
   Reasons for guardianship
 fields:
   - Why are you making this request for guardianship?: Reasons
+subquestion: "Illness, absence from the area, military leave, other "
 ---
 id: Legal Proceedings
 question: |2
