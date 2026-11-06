@@ -665,18 +665,17 @@ id: download petition_appointment_of_tg_ct_pc504_with_fields
 event: petition_appointment_of_tg_ct_pc504_with_fields_download
 question: |
   All done
-subquestion: |
-  Thank you ${users}. Your form is ready to download and deliver.
-
+subquestion: |2
+  Thank you ${users}. Your form is ready to download and deliver. DO NOT FORGET the child's birth certificate, the Affidavit Concerning Children (JD-FM-164) and the Confidential Information Sheet (PC-504CI)
+  
   Use the options on this page to view, download and send your form. Use the
   "Edit answers" button to fix any mistakes.
-
+  
   ${ action_button_html(url_action('review_petition_appointment_of_tg_ct_pc504_with_fields'), label=word('Edit answers'), color='info') }
-
+  
   ${ al_user_bundle.download_list_html() }
-
+  
   ${ al_user_bundle.send_button_html(show_editable_checkbox=False) }
-
 progress: 100
 ---
 # ALDocument objects specify the metadata for each template
