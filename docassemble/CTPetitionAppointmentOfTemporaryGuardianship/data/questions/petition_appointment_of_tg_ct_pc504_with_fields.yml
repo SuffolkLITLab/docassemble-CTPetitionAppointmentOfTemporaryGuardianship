@@ -11,7 +11,7 @@ metadata:
   description: |-
     Use this form to request the appointment of a temporary guardian for a minor child. This process is initiated by a parent or court-appointed guardian who is unable to care for the child.
   can_I_use_this_form: |
-    You can use this form if you are a parent or a court-appointed guardian of a minor. Make sure to file it in the probate district where the child resides.
+    You can use this form if you are a parent or a court-appointed guardian of a minor (Note: Cannot be a temporary guardian). You can file it in the probate district where the child lives right now, is domiciled (has their permanent home), or is located at the time the petition is filed
   before_you_start: |
     ## Before you get started
     - Ensure you have the minor's birth certificate and the Affidavit Concerning Children (JD-FM-164).
@@ -93,7 +93,7 @@ objects:
         'telephone_number'])
 ---
 sections:
-  - Probate_Court_Name: Petiton Details
+  - Probate_Court_Name: Petiton details
   - child_details: Child details
   - petitioner_and_guardian: Petitioner and guardian information
   - guardianship_rights_and_reasons: Rights and reasons for guardianship
@@ -174,16 +174,16 @@ question: |2
   Petition details
 subquestion: |2-
   Click this link to figure out which court name and district number is right for your petition: 
-  [CT probate court locator](https://https://www.ctprobate.gov/court-locator)
+  [CT probate court locator](https://www.ctprobate.gov/court-locator)
 fields:
   - Probate court name: Probate_Court_Name
   - District number: District_No
-  - "Child's last name (In the matter of)": In_the_Matter_of
 ---
 id: Child Information
 question: |2
   Child information
 fields:
+  - "Child's last name (In the matter of)": In_the_Matter_of
   - when was the child born?: Minor_Childs_Date_of_Birth
     datatype: BirthDate
   - where does the child live?: Address_where_minor_child_resides
@@ -213,19 +213,20 @@ question: "Proposed temporary guardian information"
 fields:
   - Proposed Temporary Guardian name: guardians[0].name
   - code: |
-      guardians[0].address.address.address_fields()
+      guardians[0].address.address_fields()
 
   - Proposed Temporary Guardian telephone number: "guardians[0].telephone_number"
     datatype: al_international_phone
   - "Proposed Temporary Guardian date of birth ": "guardians[0].birth_date"
     datatype: BirthDate
+  - "Proposed Temporary Guardian Address": "guardians[0].address.address"
 sets:
-  - "guardians[0].address.address.address.address"
-  - "guardians[0].address.address.address.city"
-  - "guardians[0].address.address.address.zip"
-  - "guardians[0].address.address.address.unit"
-  - "guardians[0].address.address.address.state"
-  - "guardians[0].address.address.address.country"
+  - "guardians[0].address.address."
+  - "guardians[0].address.address.city"
+  - "guardians[0].address.address.zip"
+  - "guardians[0].address.address.unit"
+  - "guardians[0].address.address.state"
+  - "guardians[0].address.address.country"
 ---
 id: Guardianship Rights
 question: |2
@@ -416,7 +417,7 @@ review:
       **Guardianship Terms**
 
       Termination date of guardianship: ${ showifdef('Termination_date') }
-  - Edit: Petitioners_Name
+  - Edit: users1_Name
     button: |
       **Signatures**
 
@@ -756,6 +757,8 @@ attachment:
       - "no_preexisting_child_support_order": ${ not preexisting_child_support_order }
       - "Termination_date": ${ Termination_date.format() }
       - "users1_name": ${ users[0].name }
+      - "users1_address": ${ users[0].address.address }
+      - "users1_telephone_number": ${ users[0].telephone_number}
       - "Date1": ${ today() }
       - "users2_name": ${ users[1].name }
       - "Date2": ${ today() }
