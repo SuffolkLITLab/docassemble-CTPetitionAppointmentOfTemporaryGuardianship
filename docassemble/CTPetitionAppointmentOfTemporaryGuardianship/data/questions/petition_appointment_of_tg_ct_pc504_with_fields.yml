@@ -211,17 +211,16 @@ fields:
 id: question_1790104605424
 question: "Proposed temporary guardian information"
 fields:
-  - Proposed Temporary Guardian name: guardians[0].name
+  - Proposed Temporary Guardian name: "guardians[0].name"
   - code: |
       guardians[0].address.address_fields()
-
   - Proposed Temporary Guardian telephone number: "guardians[0].telephone_number"
     datatype: al_international_phone
   - "Proposed Temporary Guardian date of birth ": "guardians[0].birth_date"
     datatype: BirthDate
-  - "Proposed Temporary Guardian Address": "guardians[0].address.address"
 sets:
   - "guardians[0].address.address."
+  - "guardians[0].address.address.address"
   - "guardians[0].address.address.city"
   - "guardians[0].address.address.zip"
   - "guardians[0].address.address.unit"
@@ -246,10 +245,6 @@ question: |2
   Reasons for guardianship
 fields:
   - Why are you making this request for guardianship?: Reasons
-  - Has the child been living in Connecticut for the past 6 months?: has_resided
-    datatype: yesnoradio
-  - "Is anyone fighting over or going to court about custody of this child, in any state?": current_proceeding
-    datatype: yesnoradio
 ---
 id: Legal Proceedings
 question: |2
@@ -257,13 +252,12 @@ question: |2
 subquestion: |2+
   
 fields:
+  - Has the child been living in Connecticut for the past 6 months?: has_resided
+    datatype: yesnoradio
+  - "Is anyone fighting over or going to court about custody of this child, in any state?": current_proceeding
+    datatype: yesnoradio
   - Has there been a proceeding in the past in Connecticut or any state affecting the custody of the child?: past_proceeding
     datatype: yesnoradio
----
-id: Protective or Restraining Order Attachment
-question: 
-  "Legal proceedings"
-fields: 
   - Is there a current safety or service agreement between the Department of Children and Families and the parent/guardian of the minor child?: current_safety_service_agreement
     datatype: yesnoradio
   - Does anyone involved have a a current protective or restraining order? (if YES you must bring it to the court): current_protective_restraining_order
