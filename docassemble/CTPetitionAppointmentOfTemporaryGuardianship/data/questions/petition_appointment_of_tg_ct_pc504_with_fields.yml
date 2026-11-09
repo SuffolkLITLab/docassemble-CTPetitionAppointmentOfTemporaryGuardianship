@@ -88,7 +88,7 @@ code: |
   al_next_steps_what_happens_if_i_win = 'If your petition is approved, the temporary guardianship will be effective for up to one year. The appointed guardian will have the authority to make decisions for the minor as specified in the court order.'
 ---
 objects:
-  - users: ALPeopleList.using(there_are_any=True, complete_attirbute= ['address.address',
+  - users: ALPeopleList.using(there_are_any=True, complete_attribute= ['address.address',
         'telephone_number'])
   - guardians: ALPeopleList.using(there_are_any=True, complete_attribute=['address.address',
         'telephone_number'])
@@ -115,7 +115,7 @@ code: |
   Minor_Childs_Date_of_Birth
   nav.set_section('petitioner_and_guardian')
   parent_or_court_appointed_guardian
-  #users1_Name_address_and_telephone_number
+  # users1_Name_address_and_telephone_number
   nav.set_section('guardianship_rights_and_reasons')
   set_progress(22) # set the progress per 
   users.gather()
@@ -187,7 +187,7 @@ fields:
   - "Child's last name (In the matter of)": In_the_Matter_of
   - when was the child born?: Minor_Childs_Date_of_Birth
     datatype: BirthDate
-  - where does the child live?: Address_where_minor_child_resides
+  - Where does the child live?: Address_where_minor_child_resides
   - label: "what is the address of child's permanent home? (if different from where child lives)"
     field: Address_where_minor_child_is_domiciled_if_different
     required: False
@@ -204,11 +204,14 @@ fields:
       - Parent
       - Court-Appointed Guardian
 ---
-#id: question_1793735580896
-#question: "Your information"
-#fields:
-#  - "What is your name, address, and telephone number": #users1_Name_address_and_telephone_number
-#---
+---
+id: petitioner telephone number
+question: |
+  What is ${ users[0] } phone number?
+fields:
+  - Telephone number: users[0].telephone_number
+    datatype: al_international_phone
+---
 id: question_1790104605424
 question: "Proposed temporary guardian information"
 fields:
@@ -275,53 +278,6 @@ fields:
     datatype: date
     min: ${ today() }
     max: ${ today().plus(years=1) }
----
-id: Signatures
-question: |
-  Signatures
-subquestion: |
-  Sign and provide details of the petitioners.
-fields:
-  - "Petitioner's signature": Petitioners_signature
-    datatype: area
-  - Type or print name of petitioner: Type_or_Print_Name_1
-  - "Date ": Date1
-    datatype: date
-  - label: "Petitioner's signature "
-    field: Petitioners_Name2
-    datatype: area
-    required: False
-  - label: Type or print name of petitioner
-    field: Type_or_Print_Name_2
-    required: False
-  - label: "Date "
-    field: Date2
-    datatype: date
-    required: False
-  - "Proposed Temporary Guardian Signature ": Proposed_Temporary_Guardian_name
-    datatype: area
-  - "Type or print name ": Type_or_Print_Name_3
-  - Date: Date3
-    datatype: date
-  - Address: Address1
-  - Telephone number: Telephone_number1
-  - label: Proposed Temporary Guardian Signature
-    field: Proposed_Temporary_Guardian_name2
-    datatype: area
-    required: False
-  - label: "Type or print name "
-    field: Type_or_Print_Name_4
-    required: False
-  - label: Date
-    field: Date4
-    datatype: date
-    required: False
-  - label: Address
-    field: Address2
-    required: False
-  - label: Telephone number
-    field: Telephone_number2
-    required: False
 ---
 comment: |
   The questions below are copies of the questions in AssemblyLine's
@@ -730,7 +686,11 @@ attachment:
       - "Address_where_minor_child_resides": ${ Address_where_minor_child_resides }
       - "Address_where_minor_child_is_domiciled_if_different": ${ Address_where_minor_child_is_domiciled_if_different }
       - "Address_where_minor_child_is_located_at_time_of_filing_petition_if_different": ${ Address_where_minor_child_is_located_at_time_of_filing_petition_if_different }
-      - "Petitioner_Name_address_and_telephone_number": ${ users1_Name_address_and_telephone_number }
+      #- "Petitioner_Name_address_and_telephone_number": |
+      - users1_name: ${ users[0].name_full() }
+      - users1_address: ${ users[0].address_on_one_line() }
+      - users1_telephone_number: ${ users[0].phone_numbers() }
+      # ${ users1_Name_address_and_telephone_number }
       - "Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date": ${ guardians1_Name_address_telephone_number_and_birth_date }
       - "Parent": ${ parent_or_court_appointed_guardian == "Parent" }
       - "Courtappointed_Guardian": ${ parent_or_court_appointed_guardian == "Court-Appointed Guardian" }
@@ -751,18 +711,23 @@ attachment:
       - "preexisting_child_support_order": ${ preexisting_child_support_order }
       - "no_preexisting_child_support_order": ${ not preexisting_child_support_order }
       - "Termination_date": ${ Termination_date.format() }
-      - "users1_name": ${ users[0].name }
+      - "users1_name__2": ${ users[0].name }
       - "users1_address": ${ users[0].address.address }
       - "users1_telephone_number": ${ users[0].telephone_number}
       - "Date1": ${ today() }
       - "users2_name": ${ users[1].name }
       - "Date2": ${ today() }
+      # Check: maybe not used?
       - "guardians1_name": ${ guardians[0].name }
+      - "guardians1_name__2": ${ guardians[0].name }
       - "Date3": ${ today() }
+      - "guardians1_address__2": ${ guardians[0].address.on_one_line() }
       - "guardians1_address": ${ guardians[0].address.on_one_line() }
+      - "guardians1_telephone_number__2": ${ guardians[0].telephone_number }
       - "guardians1_telephone_number": ${ guardians[0].telephone_number }
+        
       - "guardians1_birth_date": ${ guardians[0].birth_date }
-      - "guardians2_name": ${ guardians[1].name }
+      - "guardians2_name__2": ${ guardians[1].name }
       - "Date4": ${ today() }
       - "guardians2_address": ${ guardians[1].address.on_one_line() }
       - "guardians2_telephone_number": ${ guardians[1].telephone_number }
