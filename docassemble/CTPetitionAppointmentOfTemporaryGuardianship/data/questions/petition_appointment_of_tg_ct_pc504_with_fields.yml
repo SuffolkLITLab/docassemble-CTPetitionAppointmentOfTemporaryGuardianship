@@ -223,13 +223,12 @@ fields:
   - "Proposed Temporary Guardian date of birth ": "guardians[0].birth_date"
     datatype: BirthDate
 sets:
-  - "guardians[0].address.address."
-  - "guardians[0].address.address.address"
-  - "guardians[0].address.address.city"
-  - "guardians[0].address.address.zip"
-  - "guardians[0].address.address.unit"
-  - "guardians[0].address.address.state"
-  - "guardians[0].address.address.country"
+  - "guardians[0].address.address"
+  - "guardians[0].address.city"
+  - "guardians[0].address.zip"
+  - "guardians[0].address.unit"
+  - "guardians[0].address.state"
+  - "guardians[0].address.country"
 ---
 id: Guardianship Rights
 question: |2
@@ -302,321 +301,89 @@ question: |
 review:
   - Edit: Probate_Court_Name
     button: |
-      **Petition Details**
+      **Probate court**
 
-      Probate court name: ${ showifdef('Probate_Court_Name') }
-
-      District number: ${ showifdef('District_No') }
-
-      In the matter of: ${ showifdef('In_the_Matter_of') }
-  - Edit: Minor_Childs_Date_of_Birth
-    button: |
-      **Minor Child Information**
-
-      Minor child's date of birth: ${ showifdef('Minor_Childs_Date_of_Birth') }
-
-      Address where minor child resides: ${ showifdef('Address_where_minor_child_resides') }
-
-      Address where minor child is domiciled: ${ showifdef('Address_where_minor_child_is_domiciled_if_different') }
-
-      Address where minor child is located: ${ showifdef('Address_where_minor_child_is_located_at_time_of_filing_petition_if_different') }
-  - Edit: users1_Name_address_and_telephone_number
-    button: |
-      **Petitioner and Guardian Information**
-
-      Petitioner name and contact info: ${ showifdef('users1_Name_address_and_telephone_number') }
-
-      Proposed guardian's details: ${ showifdef('guardians1_Name_address_telephone_number_and_birth_date') }
-
-      Parent: ${ word(yesno(Parent)) if defined('Parent') else '' }
-
-      Court-appointed guardian: ${ word(yesno(Courtappointed_Guardian)) if defined('Courtappointed_Guardian') else '' }
-  - Edit: Mother_Parent
-    button: |
-      **Guardianship Rights**
-
-      Mother's details: ${ showifdef('Mother_Parent') }
-
-      Father's details or unknown status: ${ showifdef('FatherParent_If_father_is_unknown_so_state') }
-
-      Guardians of the minor child: ${ showifdef('Guardians_of_the_Person_of_the_Minor_Child') }
-  - Edit: Reasons
-    button: |
-      **Reasons for Guardianship**
-
-      Reasons for guardianship request: ${ showifdef('Reasons') }
-
-      Has resided in Connecticut: ${ word(yesno(has_resided)) if defined('has_resided') else '' }
-
-      Has not resided in Connecticut: ${ word(yesno(has_not_resided)) if defined('has_not_resided') else '' }
-
-      Is there a pending proceeding: ${ word(yesno(is_a_proceeding)) if defined('is_a_proceeding') else '' }
-
-      Is not a pending proceeding: ${ word(yesno(is_not_a_proceeding)) if defined('is_not_a_proceeding') else '' }
-  - Edit: past_proceeding
-    button: |
-      **Legal Proceedings**
-
-      Has been a proceeding: ${ word(yesno(past_proceeding)) if defined('past_proceeding') else '' }
-
-      Has not been a proceeding: ${ word(yesno(has_not_been_a_proceeding)) if defined('has_not_been_a_proceeding') else '' }
-
-      Is involved in case: ${ word(yesno(is_)) if defined('is_') else '' }
-
-      Is not involved in case: ${ word(yesno(is_not)) if defined('is_not') else '' }
-  - Edit: Termination_date
-    button: |
-      **Guardianship Terms**
-
-      Termination date of guardianship: ${ showifdef('Termination_date') }
-  - Edit: users1_Name
-    button: |
-      **Signatures**
-
-      Petitioner's name: ${ showifdef('users1_Name') }
-
-      Date of first signature: ${ showifdef('Date1') }
-
-      Petitioner's second name: ${ showifdef('users2_Name') }
-
-      Date of second signature: ${ showifdef('Date2') }
-
-      Type or print name of petitioner: ${ showifdef('Type_or_Print_Name_1') }
-
-      Date of third signature: ${ showifdef('Date3') }
-
-      Address of first signer: ${ showifdef('Address1') }
-
-      Telephone number of first signer: ${ showifdef('Telephone_number1') }
-
-      Type or print name of second signer: ${ showifdef('Type_or_Print_Name_2') }
-
-      Date of fourth signature: ${ showifdef('Date4') }
-
-      Address of second signer: ${ showifdef('Address2') }
-
-      Telephone number of second signer: ${ showifdef('Telephone_number2') }
-  - Edit: is_3
-    button: |
-      **Is 3**
-
-      Is 3: ${ word(yesno(is_3)) if defined('is_3') else '' }
-  - Edit: is_not_2
-    button: |
-      **Is not 2**
-
-      Is not 2: ${ word(yesno(is_not_2)) if defined('is_not_2') else '' }
-  - Edit: is_2
-    button: |
-      **Is 2**
-
-      Is 2: ${ word(yesno(is_2)) if defined('is_2') else '' }
-  - Edit: is_not_3
-    button: |
-      **Is not 3**
-
-      Is not 3: ${ word(yesno(is_not_3)) if defined('is_not_3') else '' }
-
-  - Edit: Probate_Court_Name
-    button: |
-      **Probate court name**
-
-      Probate court name: ${ showifdef('Probate_Court_Name') }
-  - Edit: District_No
-    button: |
-      **District number**
-
-      District number: ${ showifdef('District_No') }
+      ${ Probate_Court_Name }; district ${ District_No }
   - Edit: In_the_Matter_of
     button: |
-      **In the matter of**
+      **Child**
 
-      In the matter of: ${ showifdef('In_the_Matter_of') }
+      ${ In_the_Matter_of }
   - Edit: Minor_Childs_Date_of_Birth
     button: |
-      **Minor child's date of birth**
+      **Child information**
 
-      Minor child's date of birth: ${ showifdef('Minor_Childs_Date_of_Birth') }
-  - Edit: Address_where_minor_child_resides
+      ${ Minor_Childs_Date_of_Birth.format("MM/dd/yyyy") }; ${ Address_where_minor_child_resides }
+  - Edit: users[0].name.first
     button: |
-      **Address where minor child resides**
+      **Petitioner name**
 
-      Address where minor child resides: ${ showifdef('Address_where_minor_child_resides') }
-  - Edit: Address_where_minor_child_is_domiciled_if_different
+      ${ users[0].name_full() }
+  - Edit: users[0].address.address
     button: |
-      **Address where minor child is domiciled**
+      **Petitioner address**
 
-      Address where minor child is domiciled: ${ showifdef('Address_where_minor_child_is_domiciled_if_different') }
-  - Edit: Address_where_minor_child_is_located_at_time_of_filing_petition_if_different
+      ${ users[0].address.on_one_line() }
+  - Edit: users[0].telephone_number
     button: |
-      **Address where minor child is located**
+      **Petitioner telephone number**
 
-      Address where minor child is located: ${ showifdef('Address_where_minor_child_is_located_at_time_of_filing_petition_if_different') }
-  - Edit: users1_Name_address_and_telephone_number
+      ${ users[0].telephone_number }
+  - Edit: parent_or_court_appointed_guardian
     button: |
-      **Petitioner name and contact info**
+      **Petitioner status**
 
-      Petitioner name and contact info: ${ showifdef('users1_Name_address_and_telephone_number') }
-  - Edit: Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date
+      ${ parent_or_court_appointed_guardian }
+  - Edit: guardians[0].name
     button: |
-      **Proposed guardian's details**
+      **Proposed temporary guardian**
 
-      Proposed guardian's details: ${ showifdef('Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date') }
-  - Edit: Parent
-    button: |
-      **Parent**
-
-      Parent: ${ word(yesno(Parent)) if defined('Parent') else '' }
-  - Edit: Courtappointed_Guardian
-    button: |
-      **Court-appointed guardian**
-
-      Court-appointed guardian: ${ word(yesno(Courtappointed_Guardian)) if defined('Courtappointed_Guardian') else '' }
+      ${ guardians[0].name }; ${ guardians[0].address.on_one_line() }; ${ guardians[0].telephone_number }; born ${ guardians[0].birth_date.format("MM/dd/yyyy") }
   - Edit: Mother_Parent
     button: |
-      **Mother's details**
+      **People with guardianship rights**
 
-      Mother's details: ${ showifdef('Mother_Parent') }
-  - Edit: FatherParent_If_father_is_unknown_so_state
-    button: |
-      **Father's details or unknown status**
-
-      Father's details or unknown status: ${ showifdef('FatherParent_If_father_is_unknown_so_state') }
-  - Edit: Guardians_of_the_Person_of_the_Minor_Child
-    button: |
-      **Guardians of the minor child**
-
-      Guardians of the minor child: ${ showifdef('Guardians_of_the_Person_of_the_Minor_Child') }
+      ${ Mother_Parent }; ${ FatherParent_If_father_is_unknown_so_state }; ${ Guardians_of_the_Person_of_the_Minor_Child }
   - Edit: Reasons
     button: |
-      **Reasons for guardianship request**
+      **Reasons for guardianship**
 
-      Reasons for guardianship request: ${ showifdef('Reasons') }
+      ${ Reasons }
   - Edit: has_resided
     button: |
-      **Has resided in Connecticut**
+      **Connecticut residence**
 
-      Has resided in Connecticut: ${ word(yesno(has_resided)) if defined('has_resided') else '' }
-  - Edit: has_not_resided
+      ${ word(yesno(has_resided)) }
+  - Edit: current_proceeding
     button: |
-      **Has not resided in Connecticut**
+      **Current proceedings**
 
-      Has not resided in Connecticut: ${ word(yesno(has_not_resided)) if defined('has_not_resided') else '' }
-  - Edit: is_a_proceeding
-    button: |
-      **Is there a pending proceeding**
-
-      Is there a pending proceeding: ${ word(yesno(is_a_proceeding)) if defined('is_a_proceeding') else '' }
-  - Edit: is_not_a_proceeding
-    button: |
-      **Is not a pending proceeding**
-
-      Is not a pending proceeding: ${ word(yesno(is_not_a_proceeding)) if defined('is_not_a_proceeding') else '' }
+      ${ word(yesno(current_proceeding)) }
   - Edit: past_proceeding
     button: |
-      **Has been a proceeding**
+      **Past proceedings**
 
-      Has been a proceeding: ${ word(yesno(past_proceeding)) if defined('past_proceeding') else '' }
-  - Edit: has_not_been_a_proceeding
+      ${ word(yesno(past_proceeding)) }
+  - Edit: current_safety_service_agreement
     button: |
-      **Has not been a proceeding**
+      **Safety service agreement**
 
-      Has not been a proceeding: ${ word(yesno(has_not_been_a_proceeding)) if defined('has_not_been_a_proceeding') else '' }
-  - Edit: is_
+      ${ word(yesno(current_safety_service_agreement)) }
+  - Edit: current_protective_restraining_order
     button: |
-      **Is involved in case**
+      **Protective or restraining order**
 
-      Is involved in case: ${ word(yesno(is_)) if defined('is_') else '' }
-  - Edit: is_not
+      ${ word(yesno(current_protective_restraining_order)) }
+  - Edit: preexisting_child_support_order
     button: |
-      **Is not involved in case**
+      **Child support order**
 
-      Is not involved in case: ${ word(yesno(is_not)) if defined('is_not') else '' }
+      ${ word(yesno(preexisting_child_support_order)) }
   - Edit: Termination_date
     button: |
-      **Termination date of guardianship**
+      **Termination date**
 
-      Termination date of guardianship: ${ showifdef('Termination_date') }
-  - Edit: users1_Name
-    button: |
-      **Petitioner's name**
-
-      Petitioner's name: ${ showifdef('users1_Name') }
-  - Edit: Date1
-    button: |
-      **Date of first signature**
-
-      Date of first signature: ${ showifdef('Date1') }
-  - Edit: users2_name
-    button: |
-      **Petitioner's second name**
-
-      Petitioner's second name: ${ showifdef('users2_name') }
-  - Edit: Date2
-    button: |
-      **Date of second signature**
-
-      Date of second signature: ${ showifdef('Date2') }
-  - Edit: Type_or_Print_Name_1
-    button: |
-      **Type or print name of petitioner**
-
-      Type or print name of petitioner: ${ showifdef('Type_or_Print_Name_1') }
-  - Edit: Date3
-    button: |
-      **Date of third signature**
-
-      Date of third signature: ${ showifdef('Date3') }
-  - Edit: Address1
-    button: |
-      **Address of first signer**
-
-      Address of first signer: ${ showifdef('Address1') }
-  - Edit: Telephone_number1
-    button: |
-      **Telephone number of first signer**
-
-      Telephone number of first signer: ${ showifdef('Telephone_number1') }
-  - Edit: Type_or_Print_Name_2
-    button: |
-      **Type or print name of second signer**
-
-      Type or print name of second signer: ${ showifdef('Type_or_Print_Name_2') }
-  - Edit: Date4
-    button: |
-      **Date of fourth signature**
-
-      Date of fourth signature: ${ showifdef('Date4') }
-  - Edit: Address2
-    button: |
-      **Address of second signer**
-
-      Address of second signer: ${ showifdef('Address2') }
-  - Edit: Telephone_number2
-    button: |
-      **Telephone number of second signer**
-
-      Telephone number of second signer: ${ showifdef('Telephone_number2') }
-  - Edit: is_3
-    button: |
-      **Is 3**
-
-      Is 3: ${ word(yesno(is_3)) if defined('is_3') else '' }
-  - Edit: is_not_2
-    button: |
-      **Is not 2**
-
-      Is not 2: ${ word(yesno(is_not_2)) if defined('is_not_2') else '' }
-  - Edit: is_2
-    button: |
-      **Is 2**
-
-      Is 2: ${ word(yesno(is_2)) if defined('is_2') else '' }
-  - Edit: is_not_3
-    button: |
-      **Is not 3**
-
-      Is not 3: ${ word(yesno(is_not_3)) if defined('is_not_3') else '' }
+      ${ Termination_date.format("MM/dd/yyyy") }
 ---
 id: download petition_appointment_of_tg_ct_pc504_with_fields
 event: petition_appointment_of_tg_ct_pc504_with_fields_download
@@ -682,16 +449,15 @@ attachment:
       - "Probate_Court_Name": ${ Probate_Court_Name }
       - "District_No": ${ District_No }
       - "In_the_Matter_of": ${ In_the_Matter_of }
-      - "Minor_Childs_Date_of_Birth": ${ Minor_Childs_Date_of_Birth.format() }
+      - "Minor_Childs_Date_of_Birth": ${ Minor_Childs_Date_of_Birth.format("MM/dd/yyyy") }
       - "Address_where_minor_child_resides": ${ Address_where_minor_child_resides }
       - "Address_where_minor_child_is_domiciled_if_different": ${ Address_where_minor_child_is_domiciled_if_different }
       - "Address_where_minor_child_is_located_at_time_of_filing_petition_if_different": ${ Address_where_minor_child_is_located_at_time_of_filing_petition_if_different }
       #- "Petitioner_Name_address_and_telephone_number": |
       - users1_name: ${ users[0].name_full() }
-      - users1_address: ${ users[0].address_on_one_line() }
-      - users1_telephone_number: ${ users[0].phone_numbers() }
+      - users1_address: ${ users[0].address.on_one_line() }
+      - users1_telephone_number: ${ users[0].telephone_number }
       # ${ users1_Name_address_and_telephone_number }
-      - "Proposed_Temporary_Guardian_Name_address_telephone_number_and_birth_date": ${ guardians1_Name_address_telephone_number_and_birth_date }
       - "Parent": ${ parent_or_court_appointed_guardian == "Parent" }
       - "Courtappointed_Guardian": ${ parent_or_court_appointed_guardian == "Court-Appointed Guardian" }
       - "Mother_Parent": ${ Mother_Parent }
@@ -710,25 +476,23 @@ attachment:
       - "no_current_protective_restraining_order": ${ not current_protective_restraining_order }
       - "preexisting_child_support_order": ${ preexisting_child_support_order }
       - "no_preexisting_child_support_order": ${ not preexisting_child_support_order }
-      - "Termination_date": ${ Termination_date.format() }
+      - "Termination_date": ${ Termination_date.format("MM/dd/yyyy") }
       - "users1_name__2": ${ users[0].name }
-      - "users1_address": ${ users[0].address.address }
-      - "users1_telephone_number": ${ users[0].telephone_number}
-      - "Date1": ${ today() }
+      - "Date1": ${ today().format("MM/dd/yyyy") }
       - "users2_name": ${ users[1].name }
-      - "Date2": ${ today() }
+      - "Date2": ${ today().format("MM/dd/yyyy") }
       # Check: maybe not used?
       - "guardians1_name": ${ guardians[0].name }
       - "guardians1_name__2": ${ guardians[0].name }
-      - "Date3": ${ today() }
+      - "Date3": ${ today().format("MM/dd/yyyy") }
       - "guardians1_address__2": ${ guardians[0].address.on_one_line() }
       - "guardians1_address": ${ guardians[0].address.on_one_line() }
       - "guardians1_telephone_number__2": ${ guardians[0].telephone_number }
       - "guardians1_telephone_number": ${ guardians[0].telephone_number }
         
-      - "guardians1_birth_date": ${ guardians[0].birth_date }
+      - "guardians1_birth_date": ${ guardians[0].birth_date.format("MM/dd/yyyy") }
       - "guardians2_name__2": ${ guardians[1].name }
-      - "Date4": ${ today() }
+      - "Date4": ${ today().format("MM/dd/yyyy") }
       - "guardians2_address": ${ guardians[1].address.on_one_line() }
       - "guardians2_telephone_number": ${ guardians[1].telephone_number }
       - "users1_signature": ${ users[0].signature }
