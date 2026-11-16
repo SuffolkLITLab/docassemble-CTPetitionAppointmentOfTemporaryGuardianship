@@ -4,6 +4,7 @@ include:
   - docassemble.ALAnyState:any_state.yml
 ---
 metadata:
+  asklit_id: "7aee63d5ab344334a137e413e605c81e"
   title: >-
     Get a temporary guardian for a child in Connecticut 
   short title: >-
