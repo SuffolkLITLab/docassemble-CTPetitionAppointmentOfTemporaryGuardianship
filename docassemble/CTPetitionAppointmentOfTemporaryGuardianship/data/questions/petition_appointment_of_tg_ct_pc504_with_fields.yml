@@ -1,4 +1,11 @@
 ---
+translations:
+  - FamilySpanish07_es.xlsx
+---
+include:
+  - family_spanish_words.yml
+---
+---
 include:
   - docassemble.AssemblyLine:assembly_line.yml
   - docassemble.ALAnyState:any_state.yml
@@ -44,8 +51,7 @@ metadata:
   typical_role: "plaintiff"
   al_weaver_version: "2.3.1"
   generated_on: "2026-09-16"
-  languages:
-    - en
+  languages: [en, es]
   jurisdiction: "NAM-US-US+CT"
   review_date: 2026-09-16
   form_titles:
@@ -74,19 +80,11 @@ code: |
 id: alweaver assemblyline settings
 initial: True
 code: |
-  # These exact-name variables drive the reusable next-steps DOCX shell and
-  # are editable in Weaver's AssemblyLine settings panel.
+  # Next-steps prose is maintained directly in the bilingual DOCX template.
   al_next_steps_enabled = True
-  al_next_steps_intro_prompt = 'Petition for Temporary Guardian Appointment'
-  al_next_steps_title = 'Petition Appointment of TG CT PC-504 with fields'
-  al_next_steps_document_title = 'Petition'
-  al_next_steps_document_purpose = 'Appointment'
   al_next_steps_help_organization = 'Connecticut Probate Courts'
   al_next_steps_help_url = 'https://portal.ct.gov/Probate'
   al_next_steps_generate_qr_code = False
-  al_next_steps_what_happens_next = 'After submitting the petition, the court will review your request. You may need to attend a hearing where you can present your case for the appointment of a temporary guardian.'
-  al_next_steps_what_can_decision_maker_do = 'The decision maker (the court) can approve or deny your petition based on the best interests of the minor child. They may also appoint a temporary guardian.'
-  al_next_steps_what_happens_if_i_win = 'If your petition is approved, the temporary guardianship will be effective for up to one year. The appointed guardian will have the authority to make decisions for the minor as specified in the court order.'
 ---
 objects:
   - users: ALPeopleList.using(there_are_any=True, complete_attribute= ['address.address',
@@ -202,8 +200,8 @@ fields:
   - "Parent or Court-appointed guardian ": parent_or_court_appointed_guardian
     datatype: radio
     choices:
-      - Parent
-      - Court-Appointed Guardian
+      - {label: "Parent", value: "Parent"}
+      - {label: "Court-Appointed Guardian", value: "Court-Appointed Guardian"}
 ---
 ---
 id: petitioner telephone number
@@ -276,8 +274,8 @@ question: |2
 fields:
   - Guardianship end date: Termination_date
     datatype: date
-    min: ${ today() }
-    max: ${ today().plus(years=1) }
+    min: "${ (today()).format('yyyy-MM-dd', language='en') }"
+    max: "${ (today().plus(years=1)).format('yyyy-MM-dd', language='en') }"
 ---
 comment: |
   The questions below are copies of the questions in AssemblyLine's
@@ -450,7 +448,7 @@ attachment:
       - "Probate_Court_Name": ${ Probate_Court_Name }
       - "District_No": ${ District_No }
       - "In_the_Matter_of": ${ In_the_Matter_of }
-      - "Minor_Childs_Date_of_Birth": ${ Minor_Childs_Date_of_Birth.format("MM/dd/yyyy") }
+      - "Minor_Childs_Date_of_Birth": ${ Minor_Childs_Date_of_Birth.format("MM/dd/yyyy", language='en') }
       - "Address_where_minor_child_resides": ${ Address_where_minor_child_resides }
       - "Address_where_minor_child_is_domiciled_if_different": ${ Address_where_minor_child_is_domiciled_if_different }
       - "Address_where_minor_child_is_located_at_time_of_filing_petition_if_different": ${ Address_where_minor_child_is_located_at_time_of_filing_petition_if_different }
@@ -477,26 +475,36 @@ attachment:
       - "no_current_protective_restraining_order": ${ not current_protective_restraining_order }
       - "preexisting_child_support_order": ${ preexisting_child_support_order }
       - "no_preexisting_child_support_order": ${ not preexisting_child_support_order }
-      - "Termination_date": ${ Termination_date.format("MM/dd/yyyy") }
+      - "Termination_date": ${ Termination_date.format("MM/dd/yyyy", language='en') }
       - "users1_name__2": ${ users[0].name }
-      - "Date1": ${ today().format("MM/dd/yyyy") }
+      - "Date1": ${ today().format("MM/dd/yyyy", language='en') }
       - "users2_name": ${ users[1].name }
-      - "Date2": ${ today().format("MM/dd/yyyy") }
+      - "Date2": ${ today().format("MM/dd/yyyy", language='en') }
       # Check: maybe not used?
       - "guardians1_name": ${ guardians[0].name }
       - "guardians1_name__2": ${ guardians[0].name }
-      - "Date3": ${ today().format("MM/dd/yyyy") }
+      - "Date3": ${ today().format("MM/dd/yyyy", language='en') }
       - "guardians1_address__2": ${ guardians[0].address.on_one_line() }
       - "guardians1_address": ${ guardians[0].address.on_one_line() }
       - "guardians1_telephone_number__2": ${ guardians[0].telephone_number }
       - "guardians1_telephone_number": ${ guardians[0].telephone_number }
         
-      - "guardians1_birth_date": ${ guardians[0].birth_date.format("MM/dd/yyyy") }
+      - "guardians1_birth_date": ${ guardians[0].birth_date.format("MM/dd/yyyy", language='en') }
       - "guardians2_name__2": ${ guardians[1].name }
-      - "Date4": ${ today().format("MM/dd/yyyy") }
+      - "Date4": ${ today().format("MM/dd/yyyy", language='en') }
       - "guardians2_address": ${ guardians[1].address.on_one_line() }
       - "guardians2_telephone_number": ${ guardians[1].telephone_number }
       - "users1_signature": ${ users[0].signature }
       - "users2_signature": ${ users[1].signature }
       - "guardians1_signature": ${ guardians[0].signature }
       - "guardians2_signature": ${ guardians[1].signature }
+---
+language: es
+sections:
+- Probate_Court_Name: Detalles de la solicitud
+- child_details: Datos del menor
+- petitioner_and_guardian: Información del solicitante y del tutor
+- guardianship_rights_and_reasons: Derechos y motivos de la tutela
+- legal_proceedings_and_terms: Procedimientos judiciales y condiciones de la tutela
+- review_and_sign: Revisar, firmar y presentar
+- review_petition_appointment_of_tg_ct_pc504_with_fields: Revise sus respuestas
